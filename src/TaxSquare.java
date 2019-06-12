@@ -12,7 +12,5 @@ public class TaxSquare extends Square {
 	public int getTax() {
 		return tax;
 	}
-	
-	
 
 }

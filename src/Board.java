@@ -13,9 +13,9 @@ public class Board extends JFrame{
 	private int n; 
 	private Player curr_pl;
 	
-	
-	public void makeTheCards()
-	{
+	//Creates the community chest and chance cards.
+	public void makeTheCards(){
+		
 		Card c1 = new Card(0, "GET OUT OF JAIL CARD",1,0);
 		Card c2 = new Card(0, "EARN 500$",500,1);
 		Card c3 = new Card(0, "MOVE 2 SQUARES AHEAD",2,2);
@@ -38,30 +38,36 @@ public class Board extends JFrame{
 		chance_cards.add(c7);
 		chance_cards.add(c8);
 		chance_cards.add(c9);
-		chance_cards.add(c10);	
+		chance_cards.add(c10);
+		
 	}
 	
-	 public Card generateCard(Player p,int t)
-	 {  
-		 Card return_card = new Card();
+	//The upper card is drawn by the player and then added as last in the list 
+	public Card generateCard(Player p,int t){  
+		
+		Card return_card = new Card();
 		 
-		 if (t == 0 )
-		 {
-			 return_card = com_cards.get(0);
-			 com_cards.remove(0);
-			 com_cards.add(return_card);	 
-		 }
-		 else
-		 {
-			 return_card = chance_cards.get(0);
-			 chance_cards.remove(0);
-			 chance_cards.add(return_card); 
-		 } 
-		 return return_card;     
-	   }
-	 
-	 public void makeSpecialSquares()
-	 {
+		if (t == 0 ){
+			
+			return_card = com_cards.get(0);
+			com_cards.remove(0);
+			com_cards.add(return_card);	
+			 
+		}else{
+			
+			return_card = chance_cards.get(0);
+			chance_cards.remove(0);
+			chance_cards.add(return_card); 
+		
+		} 
+		
+		return return_card;     
+	
+	}
+	
+	//Creates the "GO", "Jail", "Free Parking" and "Go to Jail" squares.
+	public void makeSpecialSquares(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
@@ -90,11 +96,12 @@ public class Board extends JFrame{
 		l4.setIcon(new ImageIcon(image4));
 		Square s4 = new Square("30","Go to Jail",l4);
 		squares.add(s4);
-	 }
-	 
-	 
-	 public void makeCardSquares()
-	 {
+		
+	}
+	
+	//Creates the community chest and chance card squares.
+	public void makeCardSquares(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
@@ -133,10 +140,11 @@ public class Board extends JFrame{
 		l6.setIcon(new ImageIcon(image6));
 		CardSquare s6 = new CardSquare("36","Chance",l6);
 		squares.add(s6); 
-	 }
-	 
-	 public void makeTaxSquares()
-	 {
+		
+	}
+	
+	public void makeTaxSquares(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		
@@ -150,11 +158,12 @@ public class Board extends JFrame{
 		Image image2 = new ImageIcon(this.getClass().getResource("/square4.jpg")).getImage();
 		l2.setIcon(new ImageIcon(image2));
 		TaxSquare s2 = new TaxSquare("4","Income Tax",l2,200);
-		squares.add(s2);			
-	 }
+		squares.add(s2);
+		
+	}
 	 
-	 public void makeStationSquares()
-	 {
+	public void makeStationSquares(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
@@ -164,15 +173,13 @@ public class Board extends JFrame{
 		Image image1 = new ImageIcon(this.getClass().getResource("/square5.jpg")).getImage();
 		l1.setIcon(new ImageIcon(image1));
 		StationSquare s1 = new StationSquare("5",l1, "Reading Railroad");
-		squares.add(s1);
-				
+		squares.add(s1);	
 		
 		//second station
 		Image image2 = new ImageIcon(this.getClass().getResource("/square15.jpg")).getImage();
 		l2.setIcon(new ImageIcon(image2));
 		StationSquare s2 = new StationSquare("15",l2,"Pennsylvania Railroad");
 		squares.add(s2);
-				
 					
 		//third station
 		Image image3 = new ImageIcon(this.getClass().getResource("/square25.jpg")).getImage();
@@ -185,32 +192,33 @@ public class Board extends JFrame{
 		l4.setIcon(new ImageIcon(image4));
 		StationSquare s4 = new StationSquare("35",l4,"Short Line");
 		squares.add(s4); 
-	 }
+	
+	}
 	 
-	 public void makeUtilitySquares()
-	 {
-		 JLabel l1 = new JLabel();
-		 JLabel l2 = new JLabel();
+	public void makeUtilitySquares(){
+		
+		JLabel l1 = new JLabel();
+		JLabel l2 = new JLabel();
 		 
 		//water works
 	    Image image1 = new ImageIcon(this.getClass().getResource("/square28.jpg")).getImage();
 	    l1.setIcon(new ImageIcon(image1));
 	    UtilitySquare s1 = new UtilitySquare("28",l1,"Water Works");
-		squares.add(s1);
-			
+		squares.add(s1);	
 				
 		//electric company
 		Image image2 = new ImageIcon(this.getClass().getResource("/square12.jpg")).getImage();
 		l2.setIcon(new ImageIcon(image2));
 		UtilitySquare s2 = new UtilitySquare("12",l2,"Electric Company");
-		squares.add(s2);	 
-	 }
+		squares.add(s2);
+		
+	}
 	 
-	 public void makePlotSquaresGroup1()
-	 {
+	//Creates the brown group of plots
+	public void makePlotSquaresGroup1(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
-		
 				
 		//first square
 	    Image image1 = new ImageIcon(this.getClass().getResource("/im1g1.jpg")).getImage();
@@ -230,15 +238,16 @@ public class Board extends JFrame{
 		Hotel hotel2 = new Hotel(450,50);
 		
 		PlotSquare s2 = new PlotSquare("3",l2,"Baltic Avenue",60,8,house2,hotel2,1,2);
-		squares.add(s2);		
-	 }
+		squares.add(s2);
+		
+	}
 	 
-	 public void makePlotSquaresGroup2()
-	 {
-		 JLabel l1 = new JLabel();
-		 JLabel l2 = new JLabel();
-		 JLabel l3 = new JLabel();
-			
+	//Creates the light blue group of plots
+	public void makePlotSquaresGroup2(){
+		
+		JLabel l1 = new JLabel();
+		JLabel l2 = new JLabel();
+		JLabel l3 = new JLabel();	
 					
 		//first square
 		Image image1 = new ImageIcon(this.getClass().getResource("/im1g2.jpg")).getImage();
@@ -249,7 +258,6 @@ public class Board extends JFrame{
 				
 		PlotSquare s1 = new PlotSquare("6",l1, "Oriental Avenue",100,12,house1,hotel1,2,3);
 		squares.add(s1);
-		
 				
 		//second square
 		Image image2 = new ImageIcon(this.getClass().getResource("/im2g2.jpg")).getImage();
@@ -261,7 +269,6 @@ public class Board extends JFrame{
 		PlotSquare s2 = new PlotSquare("8",l2,"Vermont Avenue",100,12,house2,hotel2,2,3);
 		squares.add(s2);
 			
-			
 		//third square
 		Image image3 = new ImageIcon(this.getClass().getResource("/im3g2.jpg")).getImage();
 		l3.setIcon(new ImageIcon(image3));
@@ -271,10 +278,12 @@ public class Board extends JFrame{
 						
 		PlotSquare s3 = new PlotSquare("9",l3,"Connecticut Avenue",120,16,house3,hotel3,2,3);
 		squares.add(s3);
-	 }
 	 
-	 public void makePlotSquaresGroup3()
-	 {
+	}
+	
+	//Creates the pink group of plots 
+	public void makePlotSquaresGroup3(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
@@ -308,10 +317,12 @@ public class Board extends JFrame{
 							
 		PlotSquare s3 = new PlotSquare("14",l3,"Virginia Avenue",160,24,house3,hotel3,3,3);
 		squares.add(s3);
-	 }
+		
+	}
 	 
-	 public void makePlotSquaresGroup4()
-	 {
+	//Creates the orange group of plots
+	public void makePlotSquaresGroup4(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
@@ -345,10 +356,12 @@ public class Board extends JFrame{
 							
 		PlotSquare s3 = new PlotSquare("19",l3,"New York Avenue",200,32,house3,hotel3,4,3);
 		squares.add(s3);
-	 }
+		
+	}
 	 
-	 public void makePlotSquaresGroup5()
-	 {
+	//Creates the red group of plots
+	public void makePlotSquaresGroup5(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
@@ -382,10 +395,12 @@ public class Board extends JFrame{
 							
 		PlotSquare s3 = new PlotSquare("24",l3,"Illinois Avenue",240,40,house3,hotel3,5,3);
 		squares.add(s3);
-	 }
+		
+	}
 	 
-	 public void makePlotSquaresGroup6()
-	 {
+	//Creates the yellow group of plots
+	public void makePlotSquaresGroup6(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
@@ -419,10 +434,12 @@ public class Board extends JFrame{
 							
 		PlotSquare s3 = new PlotSquare("29",l3,"Marvin Gardens",240,48,house3,hotel3,6,3);
 		squares.add(s3);
-	 }
+		
+	}
 	 
-	 public void makePlotSquaresGroup7()
-	 {
+	//Creates the green group of plots
+	public void makePlotSquaresGroup7(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
@@ -455,11 +472,13 @@ public class Board extends JFrame{
 		Hotel hotel3 = new Hotel(1400,200);
 							
 		PlotSquare s3 = new PlotSquare("34",l3,"Pennsylvania Avenue",320,56,house3,hotel3,7,3);
-		squares.add(s3);	
-	 }
+		squares.add(s3);
+		
+	}
 	 
-	 public void makePlotSquaresGroup8()
-	 {
+	//Creates the blue group of plots
+	public void makePlotSquaresGroup8(){
+		
 		JLabel l1 = new JLabel();
 		JLabel l2 = new JLabel();
 					
@@ -482,10 +501,11 @@ public class Board extends JFrame{
 			
 		PlotSquare s2 = new PlotSquare("39",l2,"Boardwalk",400,52,house2,hotel2,8,2);
 		squares.add(s2);	
-	 }
 	 
-	 public void makeTheBoard()
-	 {
+	}
+	
+	public void makeTheBoard(){
+		
 		makeSpecialSquares();
 		makeCardSquares();
 		makeTaxSquares();
@@ -500,49 +520,44 @@ public class Board extends JFrame{
 		makePlotSquaresGroup7();
 		makePlotSquaresGroup8();
 		curr_pl = players.get(0);
-	 }
-	
 	 
-	 public Player changeTurn()
-	 {
-		 int i;
-		 boolean flag = true;
-		 for (Player p : players)
-		 {
-			 if (p.getName().equals(curr_pl.getName()))
-			 {
-				 i = players.indexOf(p);
-				 if (i == players.size()-1)
-					 i=0;
-				 else
-					 i++;
-				 
-				 do{
-					 if (!players.get(i).isBankrupt())
-					 { 
-						 curr_pl = players.get(i);
-					     flag=false;
-					 }
-					 
-					 if (i==players.size()-1)
-						 i=0;
-					 else
-						 i++;
-					 
-				 }while (flag==true);
-				 break;
-			 }
-				 
-		 }
-		 return curr_pl;
-	 }
+	}
 	 
+	public Player changeTurn(){
+		
+		int i;
+		boolean flag = true;
+		for (Player p : players){
+			
+			if (p.getName().equals(curr_pl.getName())){
+				
+				i = players.indexOf(p);
+				if (i == players.size()-1)
+					i=0;
+				else
+					i++;
+				 
+				do{
+					if (!players.get(i).isBankrupt()){
+						
+						curr_pl = players.get(i);
+					    flag=false;
+					}
+					if (i==players.size()-1)
+						i=0;
+					else
+						i++;
+				}while (flag==true);
+				break;
+			}	 
+		}
+		return curr_pl;
+	}
 	 
 	//getters and setters
 	public ArrayList<Player> getPlayers() {
 		return players;
 	}
-
 	
 	public ArrayList<Square> getSquares() {
 		return squares;
@@ -564,7 +579,7 @@ public class Board extends JFrame{
 		return curr_pl;
 	}
 	
-	}
+}
 
 
 	

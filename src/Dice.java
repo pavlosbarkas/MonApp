@@ -6,10 +6,11 @@ public class Dice {
 	private int dice2;
 	private Random r = new Random();
     
-	public void throwDice()
-	{
+	public void throwDice(){
+		
 		dice1= r.nextInt(6) + 1;
 		dice2= r.nextInt(6) + 1;
+	
 	}
 
 	public int getDice1() {
@@ -20,6 +21,4 @@ public class Dice {
 		return dice2;
 	}
 	
-	
-
 }

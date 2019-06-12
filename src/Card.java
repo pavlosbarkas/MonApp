@@ -7,47 +7,41 @@ public class Card {
 	private int number;
 	private int code;
 	
-	
-	public Card(int type,String str,int number,int code)
-	{
+	public Card(int type,String str,int number,int code){
+		
 		this.type=type;
 		this.str=str;
 		this.number=number;
 		this.code=code;
+		
 	}
-
 	
 	public Card() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
-
-	public boolean executeTheCard(Player p,Board b)
-	{
+	//According to the type of card, the necessary actions are taken using this method.
+	public boolean executeTheCard(Player p,Board b){
 	
-		if (type == 0)
-		{
+		if (type == 0){
+			
 			if(code==0)
 				p.setGetOutOfJail(true);
 			else if(code==1)
 				p.earnMoney(number);
 			else if(code==2 || code==3)
-			    p.changePosition(number);	
-			else
-			{	
+				p.changePosition(number);	
+			else{	
 				p.setPosition(0);
 			    p.earnMoney(200); 
 			}
-		}
-		else
-		{ 
-			if (code==0)
-			{
+		}else{ 
+			if (code==0){
+				
 				int m = p.getMoney();  
 				int n = 0 ;
 				
-				for (Player x : b.getPlayers())
-				{
+				for (Player x : b.getPlayers()){
 					if (!x.isBankrupt())
 						n++;
 				}
@@ -56,12 +50,12 @@ public class Card {
 				if (!p.isLoan())
 					m = m + 1000;
 				
-				if (m >= n)
-				{
-				   for(Player x : b.getPlayers())
-				   {
-					   if (!p.getName().equals(x.getName()))
-					   {
+				if (m >= n){
+					
+				   for(Player x : b.getPlayers()){
+					   
+					   if (!p.getName().equals(x.getName())){
+						   
 						   p.payMoney(number);
 						   x.earnMoney(number);	   
 					   }	
@@ -79,15 +73,14 @@ public class Card {
 								+ "\n(INCLUDING LOAN).",
 		                       "UPDATE", JOptionPane.ERROR_MESSAGE);
 				return false;
-			}
-			else if (code==1)
-			{   
+			}else if (code==1){
+				
 			    p.setPosition(10);
 			    p.setInJail(true);
-			}
-			else
+			
+			}else
 				return p.payMoney(number);	
-
+			
 		}
 		return true;
 		
@@ -106,12 +99,8 @@ public class Card {
 		return str;
 	}
 
-
 	public int getNumber() {
 		return number;
 	}
-	
-  
 
-	
 }

@@ -8,10 +8,9 @@ public class PlotSquare extends Square{
 	private int counter; //counts number of houses
 	private int group; //the group the plot belongs to
 	private int num; //how many plots are in the group
-
 	
-	public PlotSquare(String n,JLabel label,String name,int price,int rent,House house,Hotel hotel,int group,int num)
-	{
+	public PlotSquare(String n,JLabel label,String name,int price,int rent,House house,Hotel hotel,int group,int num){
+		
 		super(n,label,name,price,rent);
 		
 		this.hotel=hotel;
@@ -20,23 +19,26 @@ public class PlotSquare extends Square{
 		this.num=num;
 		hotel_built=false;
 		counter=0;
+	
 	}
 
-	public void buildHouse()
-	{
+	//Adds a house in the specified plotsquare.
+	public void buildHouse(){
+		
 		counter++;
+	
 	}
 
-	public String showInfo()
-	{
+	public String showInfo(){
+		
 		return "Name : " + super.getName() + "\nPrice : " + super.getPrice() + "\nRent : " + super.getRent()
 		+ "\nWith 1 House : " + house.getHouse_rent1() + "\nWith 2 Houses : " + house.getHouse_rent2()
 		+  "\nWith 3 Houses : " + house.getHouse_rent3() +  "\nWith 4 Houses : " + house.getHouse_rent4()
 		+ "\nWith Hotel : " + hotel.getHotel_rent() + "\nHouses cost " + house.getHouse_cost() + " each"
 		+ "\nHotel costs : " + hotel.getHotel_cost() + "\nNumber of houses build : " + counter 
 		+ "\n\nIf a player owns ALL the lots \nof any color group the rent \nis doubled on unimproved lots \nin that group.";
-	}
 	
+	}
 	
     //getters and setters
 	public House getHouse() {
@@ -62,12 +64,5 @@ public class PlotSquare extends Square{
 	public void setHotel_built(boolean hotel_built) {
 		this.hotel_built = hotel_built;
 	}
-
-
-	
-	
-	
-	
-	
 
 }

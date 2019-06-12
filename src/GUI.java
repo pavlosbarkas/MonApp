@@ -69,16 +69,16 @@ public class GUI extends JFrame {
 	
 	int jail_choice = -1; //get out of jail options
 	
-	
-	public GUI(Board board)
-	{
+	public GUI(Board board){
+		
 		this.board=board;
 		Frame();	
+	
 	}
 	
-	
-	public void Frame()
-	{
+	//Welcome window of the game. It contains a START button which when pressed starts the game.
+	public void Frame(){
+		
 		p=new JPanel();
 		this.setContentPane(p);
 		p.setBackground(Color.white);
@@ -96,7 +96,8 @@ public class GUI extends JFrame {
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				getThePlayers();		
-			}});
+			}
+		});
 		
 		Toolkit toolkit = getToolkit();
 		Dimension size = toolkit.getScreenSize();
@@ -106,21 +107,23 @@ public class GUI extends JFrame {
 		this.setVisible(true);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 	}
 	
-	
-	public boolean getNumberofPlayers()
-	{
+	public boolean getNumberofPlayers(){
+		
 		int n=0;
 	    String answer;
 	    char a;
 	    
 		do{
 			do{
-		    answer = JOptionPane.showInputDialog("Insert number of players (2-4): ");
-		    if (answer==null || answer.equals(""))   
-		        break; 
-		    a = answer.charAt(0);
+				
+				answer = JOptionPane.showInputDialog("Insert number of players (2-4): ");
+				if (answer==null || answer.equals(""))   
+					break; 
+				a = answer.charAt(0);
+				
 			}while (answer.length() > 1  || (a<50 || a>52) );
 			
 			if (answer==null || answer.equals(""))
@@ -129,70 +132,72 @@ public class GUI extends JFrame {
 			
 		}while(n<2|| n>4);
 		
-		if (answer!=null && !answer.equals(""))
-		{
+		if (answer!=null && !answer.equals("")){
+			
 			board.setN(n);
 		    return true;
+		
 		}
 		
 		return false;	
 	}
 	
-	
-	public boolean getPlayerName()
-	{
+	public boolean getPlayerName(){
+		
 		j=1;
 		boolean flag;
 		
-		for(i=0;i<board.getN();i++)
-		{
+		for(i=0;i<board.getN();i++){
+			
 			flag=false;
 			String answer = null;
 			
 			do{
 				answer = JOptionPane.showInputDialog("Player " + j + " give your name : ");
-				if (answer!= null)
-				{
+				if (answer!= null){
+					
 					if (answer.equals(""))
 						JOptionPane.showMessageDialog(null, "You can't leave this field empty." , "ERROR" , JOptionPane.ERROR_MESSAGE);
-					else if (checkNicknames(answer))
-					{
+					else if (checkNicknames(answer)){
+						
 						flag=true;
 						Player player = new Player(i,answer);
 						board.getPlayers().add(player);
 						j++;
-					}
-					else
+						
+					}else
 						JOptionPane.showMessageDialog(null,"Invalid nickname. Please choose a different nickname." ,
 								"ERROR" ,JOptionPane.ERROR_MESSAGE );
-				}
-				else
-				{
+				}else{
+					
 					int k = JOptionPane.showConfirmDialog(null, "Do you want to close the game?" , "MESSAGE" , JOptionPane.YES_NO_OPTION);
-					if (k ==0)
-					{
+					if (k ==0){
+						
 						Frame();
 						return false;
+					
 					}
 				}
 			}while (flag==false);	
 		}
 		
 		return true;
+	
 	}
 	
-	
-	public boolean checkNicknames(String name)
-	{
+	//Checks if two or more players have the same name which is not allowed
+	public boolean checkNicknames(String name){
+		
 		for(Player p : board.getPlayers())
 			if (p.getName().equals(name))
 				return false;
 		return true;
+	
 	}
 	
-	
-	public void getPlayerIcon()
-	{
+	//Players choose their piece. Each player has a unique piece.
+	public void getPlayerIcon(){
+		
 		Image hat = new ImageIcon(this.getClass().getResource("/hat.png")).getImage();
 		Image hat_b = new ImageIcon(this.getClass().getResource("/hat_big.png")).getImage();
 		
@@ -209,7 +214,6 @@ public class GUI extends JFrame {
 		JButton l2 = new JButton(new ImageIcon(car_b));
 	    JButton l3 = new JButton(new ImageIcon(shoe_b));
 		JButton l4 = new JButton(new ImageIcon(hat_b));
-		
 		
 	    JPanel p1 = new JPanel();
 	    JPanel p2 = new JPanel();  
@@ -239,72 +243,63 @@ public class GUI extends JFrame {
 		this.setSize(700,225);
 		this.setVisible(true);
 		    
-			//icon for each player
-			l1.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(ship_taken==0)
-					{   
-						choice1.setIcon(new ImageIcon(ship));
-						ship_taken=1;
-						choosePawn(choice1);
-					}
-					else
-						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
-					}});
-			
-			
-			
-			l2.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(car_taken==0)
-					{   
-						choice2.setIcon(new ImageIcon(car));
-						car_taken=1;
-						choosePawn(choice2);
-					}
-					else
-						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
-					}});
-			
-			
-			
-			l3.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(shoe_taken==0)
-					{
-						choice3.setIcon(new ImageIcon(shoe));
-						shoe_taken=1;
-						choosePawn(choice3);
-		             }
-					else
-						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
-					}});
-			
-			
-			
-			l4.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(hat_taken==0)
-					{
-						choice4.setIcon(new ImageIcon(hat));
-						hat_taken=1;
-						choosePawn(choice4);
-					}
-					else
-						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
-					}});
+		//icon for each player
+		l1.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(ship_taken==0){
 				
-		
+				choice1.setIcon(new ImageIcon(ship));
+				ship_taken=1;
+				choosePawn(choice1);
+				
+			}else
+				JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
+			}
+		});
+				
+		l2.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(car_taken==0){   
+				choice2.setIcon(new ImageIcon(car));
+				car_taken=1;
+				choosePawn(choice2);
+			}else
+				JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
+			}
+		});
+				
+		l3.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(shoe_taken==0){
+				choice3.setIcon(new ImageIcon(shoe));
+				shoe_taken=1;
+				choosePawn(choice3);
+			}else
+				JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");	
+			}
+		});
+				
+		l4.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			if(hat_taken==0){
+				choice4.setIcon(new ImageIcon(hat));
+				hat_taken=1;
+				choosePawn(choice4);
+			}else
+				JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
+			}
+		});
+
 	}
 	
-	public void choosePawn(JLabel label)
-	{
+	public void choosePawn(JLabel label){
+		
 		i=0;
-		for(Player x : board.getPlayers())
-		{
+		for(Player x : board.getPlayers()){
+			
 			i++;
-			if(x.getLabel().getText().equals(" "))
-			{
+			if(x.getLabel().getText().equals(" ")){
+				
 				x.setLabel(label);
 				
 				if(x.getCode()== board.getN() - 1)
@@ -318,51 +313,54 @@ public class GUI extends JFrame {
 		}
 	}
 	
-	
-	public void getThePlayers()
-	{
+	public void getThePlayers(){
+		
 		if (getNumberofPlayers() && getPlayerName())
 			getPlayerIcon(); 	
+	
 	}	
 	
-	
-	public void layoutOfButtons() 
-	{
-		if (board.getN()==2 || board.getN()==3)
-		{
+	//Each square of the board is split into the necessary amount of boxes depending on the players' number.
+	//2 boxes if there are 2 players. 4 boxes if there are 3 or 4 players.
+	public void layoutOfButtons() {
+		
+		if (board.getN()==2 || board.getN()==3){
+			
 			rows=1;
 			cols=board.getN();
-		}
-		else
-		{
+		
+		}else{
+			
 			rows=2;
 			cols=2;
+		
 		}	
+	
 	}
 	
-	
-	public void BuildBoard()
-	{
+	public void BuildBoard(){
+		
 		p=new JPanel();
 		p.setBackground(new Color(205,230,208));
 		p.setLayout(new GridBagLayout());
 		this.setContentPane(p);
 		
 		layoutOfButtons();
-		for(i=0;i<=39;i++)
-		{
+		for(i=0;i<=39;i++){
+			
 			b[i] = new JButton();
 			b[i].setLayout(new GridLayout(rows,cols));
 			b[i].setText("" + i );
 			b[i].setFont(new Font("Arial", Font.PLAIN,0));
 			b[i].setBackground(new Color(205,230,208));
 			c[i] = new GridBagConstraints();	
-		}
 		
+		}
+
 		//creating the board
 		j=10;
-		for(i=0;i<=10;i++)
-		{ 
+		for(i=0;i<=10;i++){
+			
 			c[i].fill=GridBagConstraints.BOTH;
 		    c[i].weightx= 0.5;
 		    c[i].weighty= 0.5;
@@ -372,11 +370,12 @@ public class GUI extends JFrame {
 		   	c[i].ipadx=90;
 		   	p.add(b[i],c[i]);
 		    j--;
+		
 		}
 				
 		j=0;
-		for(i=20;i>=11;i--)
-		{  
+		for(i=20;i>=11;i--){
+			
 			c[i].fill= GridBagConstraints.BOTH;
 			c[i].weightx= 0.5;
 		    c[i].weighty= 0.5;
@@ -386,11 +385,12 @@ public class GUI extends JFrame {
 		   	c[i].ipadx=90;
 		    p.add(b[i],c[i]);
 		    j++;
+		
 		}
 				
 		j=1;
-		for(i=21;i<=30;i++)
-		{  
+		for(i=21;i<=30;i++){
+			
 			c[i].fill=GridBagConstraints.BOTH;
 			c[i].weightx= 0.5;
 		    c[i].weighty= 0.5;
@@ -400,11 +400,12 @@ public class GUI extends JFrame {
 		 	c[i].ipadx=90;
 		   	p.add(b[i],c[i]);
 		    j++;
+		
 		}
 				
 		j=1;
-		for(i=31;i<=39;i++)
-		{  
+		for(i=31;i<=39;i++){
+			
 			c[i].fill=GridBagConstraints.BOTH;
 			c[i].weightx= 0.5;
 		    c[i].weighty= 0.5;
@@ -414,8 +415,8 @@ public class GUI extends JFrame {
 		    c[i].ipadx=90;
 		    p.add(b[i],c[i]);
 		    j++;
-		}
 		
+		}
 		
 		//adding buttons
 		community_chest = new JButton();
@@ -428,8 +429,7 @@ public class GUI extends JFrame {
 	    com_c.gridwidth=3;
 	    com_c.gridheight=2;
 	    community_chest.setEnabled(false);
-	    p.add(community_chest,com_c);
-	    
+	    p.add(community_chest,com_c); 
 	    
 	    chance = new JButton();
 	    Image im2 = new ImageIcon(this.getClass().getResource("/c.png")).getImage();
@@ -462,7 +462,6 @@ public class GUI extends JFrame {
 	    d1c.gridy=2;
 	    p.add(dice_1,d1c);
 	    
-	    
 	    dice_2= new JButton("Dice 2");
 	    dice_2.addActionListener(listener);
 	    dice_2.setBackground(new Color(227,227,227));
@@ -471,7 +470,6 @@ public class GUI extends JFrame {
 		d2c.gridx=6;
 	    d2c.gridy=2;
 	    p.add(dice_2,d2c);
-	    
 	    
 	    house = new JButton("Build house");
 	    house.setFont(new Font("Arial",Font.BOLD,14));
@@ -485,7 +483,6 @@ public class GUI extends JFrame {
 	    housec.gridwidth=2;
 	    housec.anchor= GridBagConstraints.NORTH;
 	    p.add(house,housec);
-	    
 	    
 	    hotel = new JButton("Build hotel");
 	    hotel.setFont(new Font("Arial",Font.BOLD,14));
@@ -521,190 +518,189 @@ public class GUI extends JFrame {
 		makeSquares();
 		createPawns();
 		curr_pl = board.getCurr_pl();
-		PlayTheGame();	
+		PlayTheGame();
+		
 	}
-	
 
-	public void makeSquares()
-	{
-	  board.makeTheBoard();
-	  board.makeTheCards();
+	public void makeSquares(){
+		
+		board.makeTheBoard();
+		board.makeTheCards();
 	
-	  for(Square s : board.getSquares())
-	  {
-		  for (i=0;i<40;i++)
-		      if (b[i].getText().equals(s.getN()))
-			      b[i].setIcon(s.getLabel().getIcon());
-	  }	
+		for(Square s : board.getSquares()){
+		  
+			for (i=0;i<40;i++)
+				if (b[i].getText().equals(s.getN()))
+					b[i].setIcon(s.getLabel().getIcon());
+		  
+		}	
+	
 	}
 	
-	
-	public void createPawns()
-	{
+	public void createPawns(){
+		
 		for(Player x : board.getPlayers())
 		    b[0].add(x.getLabel());
+	
 	}
 	
-	
-  class showInfoButtonListener implements ActionListener{
-	  public void actionPerformed(ActionEvent e) {
+	//The "showinfo" Button when pressed, shows the info of the specified by the user who owns it, plot or utility or station.
+	class showInfoButtonListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
 		  
-	  if (e.getSource().equals(show_info))
-	  {
-		  String options[] = {"TITLES", "UTILITIES" , "STATIONS"};
-		  ArrayList<String> str = new ArrayList<>();
+			if (e.getSource().equals(show_info)){
+				
+				String options[] = {"TITLES", "UTILITIES" , "STATIONS"};
+				ArrayList<String> str = new ArrayList<>();
 		 
-		  i = -1;
-	      i = JOptionPane.showOptionDialog(null, "CHOOSE CATEGORY TO VIEW INFORMATION", "INFORMATION", 
+				i = -1;
+				i = JOptionPane.showOptionDialog(null, "CHOOSE CATEGORY TO VIEW INFORMATION", "INFORMATION", 
 							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 	
 	      
-	      if(i==0)
-    	  {
-    		  ArrayList<String> gr = new ArrayList<>();
-    		  String choice = null;
-    		  for(PlotSquare x : curr_pl.getTitles())
-    		  {
-    			  if(x.getGroup()==1)
-    				  choice = "BROWN";
-    			  else if(x.getGroup()==2)
-    				  choice = "LIGHT BLUE";
-    			  else if(x.getGroup()==3)
-    				  choice = "PINK";
-    			  else if(x.getGroup()==4)
-    				  choice = "ORANGE";
-    			  else if(x.getGroup()==5)
-    				  choice = "RED";
-    			  else if(x.getGroup()==6)
-    				  choice = "YELLOW";
-    			  else if(x.getGroup()==7)
-    				  choice = "GREEN";
-    			  else 
-    				  choice = "DARK BLUE";
-    			  
-    			  if(!gr.contains(choice))
-    				  gr.add(choice);
-    		  }
+				if(i==0){
     		  
-    		  options = new String[gr.size()];
-	    	  options = gr.toArray(options);
+						ArrayList<String> gr = new ArrayList<>();
+						String choice = null;
+						for(PlotSquare x : curr_pl.getTitles()){
+							
+							if(x.getGroup()==1)
+								choice = "BROWN";
+							else if(x.getGroup()==2)
+								choice = "LIGHT BLUE";
+							else if(x.getGroup()==3)
+								choice = "PINK";
+							else if(x.getGroup()==4)
+								choice = "ORANGE";
+							else if(x.getGroup()==5)
+								choice = "RED";
+							else if(x.getGroup()==6)
+								choice = "YELLOW";
+							else if(x.getGroup()==7)
+								choice = "GREEN";
+							else 
+								choice = "DARK BLUE";
+    			  
+							if(!gr.contains(choice))
+								gr.add(choice);
+						}
+    		  
+						options = new String[gr.size()];
+						options = gr.toArray(options);
 	    	  
-	    	  int k = - 1;
-	    	  k = JOptionPane.showOptionDialog(null, "CHOOSE COLOR GROUP TO VIEW INFORMATION", "INFORMATION", 
+						int k = - 1;
+						k = JOptionPane.showOptionDialog(null, "CHOOSE COLOR GROUP TO VIEW INFORMATION", "INFORMATION", 
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]);
-	    	  if (k != -1)
-	    		  for (PlotSquare x : curr_pl.getTitles())
-	    		  {
-	    			  if(x.getGroup() - 1 == k  )
-	    				  str.add(x.getName());
-	    		  }	 
-    	  }
-	      else if(i==1)
-	    	  for(UtilitySquare x : curr_pl.getUtilities())
-	    		  str.add(x.getName());
-	      else if(i==2)
-	    	  for(StationSquare x : curr_pl.getStations())
-	    		  str.add(x.getName());
-	      
-	      if (i != -1 && !str.isEmpty())
-	      {
-	    	  options = new String[str.size()];
-	    	  options = str.toArray(options);
+						if (k != -1)
+							for (PlotSquare x : curr_pl.getTitles()){
+								if(x.getGroup() - 1 == k  )
+									str.add(x.getName());
+							}	 
+				}else if(i==1)
+					for(UtilitySquare x : curr_pl.getUtilities())
+						str.add(x.getName());
+				else if(i==2)
+					for(StationSquare x : curr_pl.getStations())
+						str.add(x.getName());
+	     
+				if (i != -1 && !str.isEmpty()){
+					
+					options = new String[str.size()];
+					options = str.toArray(options);
 	    	  
-	    	  j = JOptionPane.showOptionDialog(null, "CHOOSE PROPERTY TO VIEW INFORMATION", "INFORMATION", 
+				j = JOptionPane.showOptionDialog(null, "CHOOSE PROPERTY TO VIEW INFORMATION", "INFORMATION", 
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
 	    		  
-	    	 String s = null;
-	    	 if (i==0)
-	    	 {
-	    	      for (PlotSquare x : curr_pl.getTitles())
-	    	      {
-	    			   if (x.getName().equals(options[j]))
-	    					 {
+				String s = null;
+				if (i==0){
+					
+					for (PlotSquare x : curr_pl.getTitles()){
+						
+						if (x.getName().equals(options[j])){
+							
 	    						s = x.showInfo();
 	    					    break;
-	    					 }
-	    	  }}
-	    	  else if (i==1)
-	    		  s = curr_pl.getUtilities().get(j).showInfo();
-	    	  else 
-	    		  s = curr_pl.getStations().get(j).showInfo();
+	    				}
+					}
+				}else if (i==1)
+					s = curr_pl.getUtilities().get(j).showInfo();
+				else 
+					s = curr_pl.getStations().get(j).showInfo();
 		      
-	    	  if (s!=null)
-	    	      JOptionPane.showMessageDialog(null, s, "PROPERTY INFO", JOptionPane.PLAIN_MESSAGE);
+				if (s!=null)
+					JOptionPane.showMessageDialog(null, s, "PROPERTY INFO", JOptionPane.PLAIN_MESSAGE);
 	    	  
-	      }
-	      else
-	    	  JOptionPane.showMessageDialog(null, "You don't have any property in that category.", "ERROR", JOptionPane.ERROR_MESSAGE);   
-	  }  
-  }}
+				}else
+					JOptionPane.showMessageDialog(null, "You don't have any property in that category.", "ERROR", JOptionPane.ERROR_MESSAGE);   
+			}  
+		}
+	}
   
-  
-  class rollDiceButtonListener implements ActionListener{
+	class rollDiceButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource().equals(dice_1))
-		{
-			board.getDice().throwDice();
-			String url1;
-			if (board.getDice().getDice1()== 1)
-				 url1 = "/1.png" ;
-			else if (board.getDice().getDice1()== 2)
-				 url1 = "/2.png" ;
-			else if (board.getDice().getDice1()== 3)
-				 url1 = "/3.png" ;
-			else if (board.getDice().getDice1()== 4)
-				 url1 = "/4.png" ;
-			else if (board.getDice().getDice1()== 5)
-				 url1 = "/5.png" ;
-		    else 
-		    	 url1 = "/6.png" ;
+			if(e.getSource().equals(dice_1)){
 			
-			Image im1 = new ImageIcon(this.getClass().getResource(url1)).getImage();
-            dice_1.setIcon(new ImageIcon(im1));
-	        dice_1.setFont(new Font("Arial",Font.PLAIN,0)); 
-	        dice_1.setEnabled(false);
-	        flag1 = true;    
-		}
-		else if (e.getSource().equals(dice_2))
-		{
-			String url2;
-			if (board.getDice().getDice2()== 1)
-				url2 = "/1.png" ;
-			else if (board.getDice().getDice2()== 2)
-				url2 = "/2.png" ;
-			else if (board.getDice().getDice2()== 3)
-				url2 = "/3.png" ;
-			else if (board.getDice().getDice2()== 4)
-				url2 = "/4.png" ;
-			else if (board.getDice().getDice2()== 5)
-				url2 = "/5.png" ;
-		    else 
-		    	url2 = "/6.png" ;
+				board.getDice().throwDice();
+				String url1;
+				if (board.getDice().getDice1()== 1)
+					url1 = "/1.png" ;
+				else if (board.getDice().getDice1()== 2)
+					url1 = "/2.png" ;
+				else if (board.getDice().getDice1()== 3)
+					url1 = "/3.png" ;
+				else if (board.getDice().getDice1()== 4)
+					url1 = "/4.png" ;
+				else if (board.getDice().getDice1()== 5)
+					url1 = "/5.png" ;
+				else 
+					url1 = "/6.png" ;
 			
-			
-			Image im2 = new ImageIcon(this.getClass().getResource(url2)).getImage();
-            dice_2.setIcon(new ImageIcon(im2));
-	        dice_2.setFont(new Font("Arial",Font.PLAIN,0));
-	        dice_2.setEnabled(false);
-	        flag2 = true;  
-		}
+				Image im1 = new ImageIcon(this.getClass().getResource(url1)).getImage();
+				dice_1.setIcon(new ImageIcon(im1));
+				dice_1.setFont(new Font("Arial",Font.PLAIN,0)); 
+				dice_1.setEnabled(false);
+				flag1 = true;    
 		
-		if (flag1==true && flag2==true)
-			calculateMove();	
-    }}
+			}else if (e.getSource().equals(dice_2)){
+			
+				String url2;
+				if (board.getDice().getDice2()== 1)
+					url2 = "/1.png" ;
+				else if (board.getDice().getDice2()== 2)
+					url2 = "/2.png" ;
+				else if (board.getDice().getDice2()== 3)
+					url2 = "/3.png" ;
+				else if (board.getDice().getDice2()== 4)
+					url2 = "/4.png" ;
+				else if (board.getDice().getDice2()== 5)
+					url2 = "/5.png" ;
+				else 
+					url2 = "/6.png" ;
+			
+				Image im2 = new ImageIcon(this.getClass().getResource(url2)).getImage();
+				dice_2.setIcon(new ImageIcon(im2));
+				dice_2.setFont(new Font("Arial",Font.PLAIN,0));
+				dice_2.setEnabled(false);
+				flag2 = true;  
+		
+			}
+		
+			if (flag1==true && flag2==true)
+				calculateMove();	
+		}
+	}
 	
-  
-    public void resetDice()
-    {
+	public void resetDice(){
+		
 	    flag1=false;
 		flag2=false;
 		dice_1.setEnabled(true);
 		dice_2.setEnabled(true);
+	
 	}
     
-    
-    public void updateInfo()
-	{
+    public void updateInfo(){
+    	
 		info.setText("PLAYER'S INFO  \n" + "Name : " + curr_pl.getName() + 
 				  "\n" + "Money : " + curr_pl.getMoney() + "\n" + "Titles : " + curr_pl.returnPlotSquares()
 				  + "Stations : " + curr_pl.returnStationSquares()  
@@ -714,172 +710,173 @@ public class GUI extends JFrame {
 			info.append("YOU HAVE A GET OUT OF JAIL CARD. \n");
 		if (curr_pl.isLoan())
 			info.append("YOU HAVE ALREADY TAKEN A LOAN. \n");
-	}
+	
+    }
     
-    public void removePawn()
-	{
+    public void removePawn(){
+    	
 		b[curr_pl.getPosition()].remove(curr_pl.getLabel());
 		b[curr_pl.getPosition()].updateUI();
-	}
 	
+    }
 	
-	public void placePawn()
-	{
+	public void placePawn(){
+		
 		b[curr_pl.getPosition()].add(curr_pl.getLabel()); 
 	    b[curr_pl.getPosition()].updateUI();
-	}
-
 	
-	public void PlayTheGame()
-	{
-		if (checkForWinner()>1)
-		{
-			 updateInfo();
-			 if (!curr_pl.isInJail())
-			 {
+	}
+	
+	public void PlayTheGame(){
+		
+		if (checkForWinner()>1){
+			
+			updateInfo();
+			if (!curr_pl.isInJail()){
+				 
 				if (flag1==true && flag2==true)
 				       resetDice();
-			 }
-			 else
-		     {
-				 resetDice();
-				 dealWithJail();
-		     }	    	  
-		}
-		else
-		{
-			 JOptionPane.showMessageDialog(null, "END OF GAME \nWINNER : " + announceWinner().getName());
-			 dice_1.setEnabled(false);
-			 dice_2.setEnabled(false);	 
+			}else{
+				
+				resetDice();
+				dealWithJail();
+			}	    	  
+		}else{
+			
+			JOptionPane.showMessageDialog(null, "END OF GAME \nWINNER : " + announceWinner().getName());
+			dice_1.setEnabled(false);
+			dice_2.setEnabled(false);	 
+		
 		} 
+	
 	}
 	
-	
-	public int checkForWinner()
-	{
+	public int checkForWinner(){
+		
 		i=0;
-		for (Player p : board.getPlayers())
-		{
+		for (Player p : board.getPlayers()){
+			
 			if (p.isBankrupt()==false)
 				i++;
+		
 		}
+		
 		return i;
+	
 	}
 	
-	
-	public Player announceWinner()
-	{
-		for (Player p : board.getPlayers())
-		{
+	public Player announceWinner(){
+		
+		for (Player p : board.getPlayers()){
+			
 			if (p.isBankrupt()==false)
 				return p;
+		
 		}
-	    return null;
+	    
+		return null;
+	
 	}
 	
-	
-	public Square findTheSquare(Player player)
-	{
-		for (Square s : board.getSquares())
-		{
+	public Square findTheSquare(Player player){
+		
+		for (Square s : board.getSquares()){
+			
 			int n = Integer.parseInt(s.getN());
 			if (n == player.getPosition())
 				return s;
+		
 		}
+		
 		System.out.println("Error");
 		return null;
+	
 	}
 	
+	public void makeTheMove(){
+		
+		int move = board.getDice().getDice1() + board.getDice().getDice2();
+		removePawn();
+		curr_pl.changePosition(move);
+		placePawn();
+		updateInfo();
+		
+		Square s = findTheSquare(curr_pl);	
+		playSquare(s);	
 	
-	public void makeTheMove()
-	{
-		 int move = board.getDice().getDice1() + board.getDice().getDice2() ;
-		 removePawn();
-		 curr_pl.changePosition(move);
-		 placePawn();
-		 updateInfo();
-		 
-		 Square s = findTheSquare(curr_pl);	
-	     playSquare(s);	
 	}
 	
-	
-	public void calculateMove()
-	{	
-		if (!curr_pl.isInJail())
-		{
+	public void calculateMove(){
+		
+		if (!curr_pl.isInJail()){
+			
 		   makeTheMove();
-		}
-		else
-		{
-			if (jail_choice==0)  //the player throws the dice to get out of jail
-			{ 
-				if (board.getDice().getDice1() == board.getDice().getDice2())
-				{
-					 curr_pl.jailCounter();
-				     JOptionPane.showMessageDialog(null, "YOU CAN GET OUT OF JAIL(DOUBLE DICE).");
-				     curr_pl.setInJail(false);
-				     makeTheMove();   
-			    }
-			    else
-			    {   
-				     JOptionPane.showMessageDialog(null, "YOU REMAIN IN JAIL");
+		
+		}else{
+			
+			if (jail_choice==0){	//the player throws the dice to get out of jail 
+				if (board.getDice().getDice1() == board.getDice().getDice2()){
+					
+					curr_pl.jailCounter();
+				    JOptionPane.showMessageDialog(null, "YOU CAN GET OUT OF JAIL(DOUBLE DICE).");
+				    curr_pl.setInJail(false);
+				    makeTheMove();   
+				}else{
+					
+				    JOptionPane.showMessageDialog(null, "YOU REMAIN IN JAIL");
 				        
-				     if(!curr_pl.jailCounter())
-				     {
-				    	 JOptionPane.showMessageDialog(null,"IT'S YOUR THIRD ROUND IN JAIL.n"
-				    			 + "YOU MUST PAY THE FINE AND ROLL THE DICE.");
-				    	 if (curr_pl.payMoney(100))
-					     {
-						     JOptionPane.showMessageDialog(null,"THE FINE HAS BEEN PAID. ROLL THE DICE");
-						     curr_pl.setInJail(false);
-							 updateInfo();
-							 PlayTheGame();
-						 }
-						 else 
-						 {
-						     JOptionPane.showMessageDialog(null,"YOU CAN'T PAY THE FINE. \n"
-						     	 		+ "YOU ARE BANKRUPT.");
-						     removePawn();
-						     curr_pl.setBankrupt(true);
-						     curr_pl = board.changeTurn();
-						     PlayTheGame();
-						  }    
-		               }
-				       else
-				       {
-				           changePlayerTurn();
-				           PlayTheGame();
-				       }  
-			    }
-		  }
-	   }	
+				    if(!curr_pl.jailCounter()){
+				    	
+				    	JOptionPane.showMessageDialog(null,"IT'S YOUR THIRD ROUND IN JAIL.n"
+				    		 + "YOU MUST PAY THE FINE AND ROLL THE DICE.");
+				    	if (curr_pl.payMoney(100)){
+				    		
+						    JOptionPane.showMessageDialog(null,"THE FINE HAS BEEN PAID. ROLL THE DICE");
+						    curr_pl.setInJail(false);
+							updateInfo();
+							PlayTheGame();
+				    	}else{
+				    		
+						    JOptionPane.showMessageDialog(null,"YOU CAN'T PAY THE FINE. \n"
+						    	 		+ "YOU ARE BANKRUPT.");
+						    removePawn();
+						    curr_pl.setBankrupt(true);
+						    curr_pl = board.changeTurn();
+						    PlayTheGame();
+				    	}    
+				    }else{
+				    	
+				        changePlayerTurn();
+				        PlayTheGame();
+				    }
+				    
+				}
+			}
+		}	
 	}
 	
-	
-	public void changePlayerTurn()
-	{
-		 if (!curr_pl.isInJail() && curr_pl.getJail_counter()!=0)
-		 {
-			 JOptionPane.showMessageDialog(null, "CHANGE TURN", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
-			 curr_pl = board.changeTurn();
-			 curr_pl.setJail_counter(0);
-			 Build();
-		 }
-		 else if (!curr_pl.isInJail())
-		 {
-		     if (board.getDice().getDice1() != board.getDice().getDice2())
-	         { 
-		         counter=0;
-		         curr_pl = board.changeTurn();
-		         JOptionPane.showMessageDialog(null, "CHANGE TURN", "UPDATE", JOptionPane.INFORMATION_MESSAGE); 
-		         Build();
-	         }
-		     else
-		     {
-			     counter++;
-			     if (counter==3)
-			     {
+	public void changePlayerTurn(){
+		
+		if (!curr_pl.isInJail() && curr_pl.getJail_counter()!=0){
+			
+			JOptionPane.showMessageDialog(null, "CHANGE TURN", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
+			curr_pl = board.changeTurn();
+			curr_pl.setJail_counter(0);
+			Build();
+		 
+		}else if (!curr_pl.isInJail()){
+			
+		    if (board.getDice().getDice1() != board.getDice().getDice2()){
+		    	
+		       counter=0;
+		       curr_pl = board.changeTurn();
+		       JOptionPane.showMessageDialog(null, "CHANGE TURN", "UPDATE", JOptionPane.INFORMATION_MESSAGE); 
+		       Build();
+		    }else{
+		    	
+			    counter++;
+			    if (counter==3){
+			    	
 		    	    counter=0;
 			        JOptionPane.showMessageDialog(null, "PLAYER : " + curr_pl.getName() + " YOU ROLLED 3 TIMES DOUBLE DICE. "
 			     		+ "YOU ARE GOING TO JAIL.");
@@ -892,20 +889,16 @@ public class GUI extends JFrame {
 			        curr_pl = board.changeTurn();
 			        JOptionPane.showMessageDialog(null, "CHANGE TURN", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
 			        Build();
-			     }
-		     }
-		 }
-		 else
-		 {
-			 JOptionPane.showMessageDialog(null, "CHANGE TURN", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
-			 curr_pl = board.changeTurn();
-			 Build();
-		 }	 
+			    }
+		    }
+		}else{
+			JOptionPane.showMessageDialog(null, "CHANGE TURN", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
+			curr_pl = board.changeTurn();
+			Build();
+		}	 
 	}
 	
-	
-	public void playSquare(Square s)
-	{
+	public void playSquare(Square s){
 		 
 		 if (s instanceof TaxSquare)
 		      playTaxSquare((TaxSquare)s);
@@ -919,92 +912,97 @@ public class GUI extends JFrame {
 		    	playPlotSquare((PlotSquare) s);
 	     else if (s.getN().equals("30"))
 	    	  playGoToJail();
-	     else
-	     {
+	     else{
+	    	 
 	    	changePlayerTurn();
 			PlayTheGame();	
+	     
 	     } 
+	
 	}
 	
-	
-	public void playTaxSquare(TaxSquare s)
-	{
+	public void playTaxSquare(TaxSquare s){
+		
 		Object option[] = {"PAY THE TAX"};
 		i = JOptionPane.showOptionDialog(null, "YOU MUST PAY THE TAX " + s.getTax() + "$", "UPDATE", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
 		
-		if (!curr_pl.payMoney(s.getTax()))
-		{
+		if (!curr_pl.payMoney(s.getTax())){
+			
 		     JOptionPane.showMessageDialog(null,"YOU DON'T HAVE ENOUGH MONEY. \n"
 		    	 		+ "YOU ARE BANKRUPT.");
 		     removePawn();
 		     curr_pl.setBankrupt(true);
-		}
-		else
+		
+		}else
+			
 			updateInfo();	
 	
 	   changePlayerTurn();
 	   PlayTheGame();	
+	
 	}
 	
-	
-	public void playCardSquare(CardSquare s)
-	{
+	public void playCardSquare(CardSquare s){
+		
 		dice_1.setEnabled(false);
 		dice_2.setEnabled(false);
 		
-		if (s.getN().equals("2") || s.getN().equals("17") || s.getN().equals("33"))
-	    {
+		if (s.getN().equals("2") || s.getN().equals("17") || s.getN().equals("33")){
+			
 			JOptionPane.showMessageDialog(null,"PICK A COMMUNNITY CHEST CARD");
 			community_chest.setBackground(new Color(183,206,186));
 			community_chest.setEnabled(true);
-	    }
-		else 
-		{
+	    
+		}else {
+			
 			JOptionPane.showMessageDialog(null,"PICK A CHANCE CARD");
 			chance.setBackground(new Color(238,152,79));
 			chance.setEnabled(true);
+		
 		}	
+	
 	}
 	
-
 	class CommunityChestOrChanceCardButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			
-			if (e.getSource().equals(community_chest))
-			{
+			if (e.getSource().equals(community_chest)){
+				
 				pickCommunityChestCard();
 				community_chest.setEnabled(false);
 				community_chest.setBackground(new Color(208,208,208));
+			
+			}else if (e.getSource().equals(chance)){
+				
+				pickChanceCard();
+				chance.setEnabled(false);
+				chance.setBackground(new Color(200,200,200));
+		    
 			}
-			else if (e.getSource().equals(chance))
-			{
-				 pickChanceCard();
-				 chance.setEnabled(false);
-				 chance.setBackground(new Color(200,200,200));
-		    }
+		
 		}
+	
 	}
 	
-	
-	public void pickCommunityChestCard()
-	{	
+	public void pickCommunityChestCard(){
+		
 		Card c = new Card();
 		c = board.generateCard(curr_pl,0);
 		
-		if (c!=null)
-		{
+		if (c!=null){
+			
 			JOptionPane.showMessageDialog(null,c.getStr());
 				      
-			if(c.getCode()==0 || c.getCode()==1 )
-			{
+			if(c.getCode()==0 || c.getCode()==1 ){
+				
 				c.executeTheCard(curr_pl, board);
 				updateInfo();
 			    changePlayerTurn();
 			    PlayTheGame();
-			}
-		    else 
-			{
+			
+			}else{
+				
 				removePawn();
 				c.executeTheCard(curr_pl, board);
 				updateInfo();
@@ -1012,120 +1010,124 @@ public class GUI extends JFrame {
 			    
 			    Square s = findTheSquare(curr_pl);
 				playSquare(s);
-		   } 
-	    }
+			} 
+		}
 	}
 	
-	
-	public void pickChanceCard()
-	{
+	public void pickChanceCard(){
+		
 		Card c = new Card();
 	    c = board.generateCard(curr_pl,1);
 	    
-		if (c!=null)
-		{
+		if (c!=null){
+			
 		   JOptionPane.showMessageDialog(null,c.getStr());
-		   if (c.getCode()==0)
-		   {
-			   if (!c.executeTheCard(curr_pl, board))
-			   {
+		   if (c.getCode()==0){
+			   
+			   if (!c.executeTheCard(curr_pl, board)){
+				   
 				   JOptionPane.showMessageDialog(null, "YOU CAN'T PAY ALL THE PLAYERS.\n"
 				   		+ "YOU ARE BANKRUPT.\n", "ERROR", JOptionPane.ERROR_MESSAGE);
 				   removePawn();
 				   curr_pl.setBankrupt(true);
-			   }
-			   else
+			   }else
 				   JOptionPane.showMessageDialog(null, "ALL THE PLAYERS HAVE BEEN"
 				   		+ " PAID SUCCESSFULLY.", "UPDATE",JOptionPane.INFORMATION_MESSAGE);  
-		   }
-		   else if(c.getCode()==1)
-		   {
-			    removePawn();
-				c.executeTheCard(curr_pl, board);  
-			    placePawn();
-		   }
-		   else
-		   {	
-			    if (!c.executeTheCard(curr_pl, board))
-			    {   
-			    	JOptionPane.showMessageDialog(null, "YOU ARE BANKRUPT.", "ERROR",JOptionPane.ERROR_MESSAGE);
-			    	removePawn();
-			    	curr_pl.setBankrupt(true);
-			    }    
-			    else
-			        JOptionPane.showMessageDialog(null, "THE AMOUNT HAS BEEN PAID SUCCESSFULLY.", "UPDATE", JOptionPane.INFORMATION_MESSAGE);     
+		   }else if(c.getCode()==1){
+			   
+			   removePawn();
+			   c.executeTheCard(curr_pl, board);  
+			   placePawn();
+		   }else{
+			   
+			   if (!c.executeTheCard(curr_pl, board)){
+				   
+				   JOptionPane.showMessageDialog(null, "YOU ARE BANKRUPT.", "ERROR",JOptionPane.ERROR_MESSAGE);
+				   removePawn();
+				   curr_pl.setBankrupt(true);
+			    
+			   }else
+				   
+			       JOptionPane.showMessageDialog(null, "THE AMOUNT HAS BEEN PAID SUCCESSFULLY.", "UPDATE", JOptionPane.INFORMATION_MESSAGE);     
+		   
 		   }	
-		  updateInfo();
-		  changePlayerTurn();
-		  PlayTheGame();
+		   updateInfo();
+		   changePlayerTurn();
+		   PlayTheGame();
 		}
 	}
 	
-	public void playUtilitySquare(UtilitySquare s)
-	{
-		if (s.getP()==null)
-		{
+	public void playUtilitySquare(UtilitySquare s){
+		
+		if (s.getP()==null){
+			
 			Object option[] = {"YES" , "NO"};
 		    i = JOptionPane.showOptionDialog(null, "DO YOU WANT TO BUY THE UTILITY COMPANY : " + s.getName() + "? PRICE: "
 				+ s.getPrice()  , "UPDATE", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
-			if(i==0)
-			{
-				if (curr_pl.buyUtilitySquare(s.getPrice(),s))
-				{
+			
+		    if(i==0){
+				
+				if (curr_pl.buyUtilitySquare(s.getPrice(),s)){
+					
 					updateInfo();
 					s.setP(curr_pl);
 					JOptionPane.showMessageDialog(null, "THE PURCHASE IS COMPLETE.");
-				}
-				else JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
 					
-			}	
-		}
-		else if (s.getP()!= curr_pl)
-		{
+				}else 
+					JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
+					
+		    }	
+		}else if (s.getP()!= curr_pl){
+			
 			int rent = s.getP().calculateUtilitiesRent() * (board.getDice().getDice1() + board.getDice().getDice2());
 			s.setRent(rent);
 			payRent(s);		
+		
 		}
 		
 		changePlayerTurn();
 		PlayTheGame();	
+	
 	}
 	
-	
-	public void playStationSquare(StationSquare s)
-	{
-		if (s.getP()==null)
-		{
+	public void playStationSquare(StationSquare s){
+		
+		if (s.getP()==null){
+			
 			Object option[] = {"YES" , "NO"};
 			i = JOptionPane.showOptionDialog(null, "DO YOU WANT TO BUY THE RAILROAD : " + s.getName() + "? PRICE: "
 					+ s.getPrice() , "UPDATE", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
-			if(i==0)
-			{
-				if (curr_pl.buyStationSquare(s.getPrice(),s))
-				{
+			if(i==0){
+				
+				if (curr_pl.buyStationSquare(s.getPrice(),s)){
+					
 					updateInfo();
 					s.setP(curr_pl);
 					JOptionPane.showMessageDialog(null, "THE PURCHASE IS COMPLETE.");
-				}
-				else JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
+				
+				}else 
+					
+					JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
+			
 			}
 			
-		}
-		else if (s.getP()!= curr_pl)
-		{
+		}else if (s.getP()!= curr_pl){
+			
 			int rent = s.getP().calculateStationRent();
 			s.setRent(rent);
 			payRent(s);
+		
 		}
 		
 	    changePlayerTurn();
 		PlayTheGame();
+		
 	}
 	
-	public void playGoToJail()
-	{
+	public void playGoToJail(){
+		
 		Object option[] = {"GO TO JAIL"};
 		i = JOptionPane.showOptionDialog(null, "YOU ARE ON THE 'GO TO JAIL' SQUARE ", "ERROR", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null , option, option[0]);
@@ -1138,30 +1140,33 @@ public class GUI extends JFrame {
 		curr_pl = board.changeTurn();
 	    JOptionPane.showMessageDialog(null, "CHANGE TURN", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
 		PlayTheGame();
+	
 	}
 	
-	public void playPlotSquare(PlotSquare s)
-	{
-		if (s.getP()==null)
-		{
+	public void playPlotSquare(PlotSquare s){
+		
+		if (s.getP()==null){
+			
 			Object option[] = {"YES" , "NO"};
 			i = JOptionPane.showOptionDialog(null, "DO YOU WANT TO BUY THE PLOT: " + s.getName() + "? PRICE: "
 					+ s.getPrice(), "UPDATE", 
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
-			if (i==0)
-			{
-				if (curr_pl.buyPlotSquare(s.getPrice(), s))
-                {
+			if (i==0){
+				
+				if (curr_pl.buyPlotSquare(s.getPrice(), s)){
+					
 					updateInfo();
 					s.setP(curr_pl);
 					JOptionPane.showMessageDialog(null, "THE PURCHASE IS COMPLETE.");   
-                }	
-				else JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
+                
+				}else 
+					JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
 			}
-		}
-		else if (s.getP() != curr_pl)
-		{
+			
+		}else if (s.getP() != curr_pl){
+			
 			payRent(s);
+		
 		}
 		
 		changePlayerTurn();
@@ -1169,24 +1174,24 @@ public class GUI extends JFrame {
 		
 	}
 	
-	public void payRent(Square s)
-	{
+	public void payRent(Square s){
+		
 		int rent;
 		
 		PlotSquare x = null;
 		if (s instanceof PlotSquare)
 			x = (PlotSquare)s ;
 		
-		if (s instanceof TaxSquare || s instanceof UtilitySquare || s instanceof StationSquare || (x!= null && x.getCounter()==0))
-		{
+		if (s instanceof TaxSquare || s instanceof UtilitySquare || s instanceof StationSquare || (x!= null && x.getCounter()==0)){
+			
 		    rent = s.getRent();
-		}
-		else 
-		{
+		
+		}else{
+			
 			if (x.isHotel_built())
 				rent = x.getHotel().getHotel_rent();
-			else 
-			{
+			else{
+				
 			    if (x.getCounter()==1)
 			    	rent = x.getHouse().getHouse_rent1();
 			    else if (x.getCounter()==2)
@@ -1194,65 +1199,63 @@ public class GUI extends JFrame {
 			    else if (x.getCounter()==3)
 			    	rent = x.getHouse().getHouse_rent3();
 			    else
-			    	rent = x.getHouse().getHouse_rent4(); 
+			    	rent = x.getHouse().getHouse_rent4();
+			    
 			}
-		}
 		
+		}
 		
 		Object option[] = {"PAY"};
 	    i = JOptionPane.showOptionDialog(null, "YOU MUST PAY RENT " + rent + "$", "UPDATE", 
 			JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
 	
-	   if (curr_pl.payMoney(s.getRent()))
-	   {
-		   updateInfo();
-		   s.getP().earnMoney(s.getRent());
-		   JOptionPane.showMessageDialog(null, "RENT PAYMENT IS COMPLETE.");	
-	   }
-	   else
-	   {
-		   JOptionPane.showMessageDialog(null, "RENT PAYMENT IS NOT COMPLETE.\n"
+	    if (curr_pl.payMoney(s.getRent())){
+	    	
+	    	updateInfo();
+	    	s.getP().earnMoney(s.getRent());
+	    	JOptionPane.showMessageDialog(null, "RENT PAYMENT IS COMPLETE.");	
+	    }else{
+	    	
+	    	JOptionPane.showMessageDialog(null, "RENT PAYMENT IS NOT COMPLETE.\n"
 				   + "YOU ARE BANKRUPT.");
-		   removePawn();
-		   curr_pl.setBankrupt(true);
-	   }
+	    	removePawn();
+	    	curr_pl.setBankrupt(true);
+	    }
 	}
 	
-
-	
-	
-	public void whereToBuild(PlotSquare s)
-	{
+	public void whereToBuild(PlotSquare s){
+		
 		j = Integer.parseInt(s.getN());
-		if (j<=10)
-		{ 
+		if (j<=10){
+			
 			hc.gridx=c[j].gridx;
 			hc.gridy=c[j].gridy-1;
 			hc.anchor=GridBagConstraints.SOUTH;
-		}
-		else if (j<=20)
-		{
+		
+		}else if (j<=20){
+			
 			hc.gridx=c[j].gridx+1;
 			hc.gridy=c[j].gridy;
 			hc.anchor=GridBagConstraints.WEST;	
-		}
-		else if (j<=30)
-		{
+		
+		}else if (j<=30){
+			
 			hc.gridx=c[j].gridx;
 			hc.gridy=c[j].gridy+1;
 			hc.anchor=GridBagConstraints.NORTH;	
-		}
-		else
-		{
+		
+		}else{
+			
 			hc.gridx=c[j].gridx-1;
 			hc.gridy=c[j].gridy;	
 			hc.anchor=GridBagConstraints.EAST;	
+		
 		}		
+	
 	}
 	
-	
-	public String whichHousetoBuild(PlotSquare s)
-	{
+	public String whichHousetoBuild(PlotSquare s){
+		
 		i = s.getCounter();
 		j = Integer.parseInt(s.getN());
 		String image_url;
@@ -1267,28 +1270,26 @@ public class GUI extends JFrame {
 			image_url="/h" + i + "r.png" ;
 
 		return image_url;
+	
 	}
 	
-	
-	public void buildAHouse(String url, String position)
-	{
+	public void buildAHouse(String url, String position){
 
 		Image image =  new ImageIcon(this.getClass().getResource(url)).getImage();
 		
-		if (image!=null)
-		{
+		if (image!=null){
 			
-	        JLabel house_hotel = new JLabel(new ImageIcon(image));
+			JLabel house_hotel = new JLabel(new ImageIcon(image));
 	        house_hotel.setOpaque(true);
 	        addHouse_Hotel(house_hotel);
-	    }
-	    else
+	    
+		}else
 			System.out.println("ERROR");
-    }
-
+    
+	}
   
-	public String whichHoteltoBuild(PlotSquare s)
-	{
+	public String whichHoteltoBuild(PlotSquare s){
+		
 		j = Integer.parseInt(s.getN());
 		String image_url;
 		if (j<=10)
@@ -1303,321 +1304,334 @@ public class GUI extends JFrame {
 		return image_url;	
 	}
 	
-	
-	public void buildHotel(String url)
-	{
+	public void buildHotel(String url){
+		
         Image image =  new ImageIcon(this.getClass().getResource(url)).getImage();
-		if (image!=null)
-		{
+		if (image!=null){
+			
 			 JLabel house_hotel = new JLabel(new ImageIcon(image));
 			 house_hotel.setOpaque(true);
 	         addHouse_Hotel(house_hotel);
-	    }
-	    else
+	    
+		}else
 			System.out.println("ERROR");
+	
 	}
 	
-	
-	public void addHouse_Hotel(JLabel l)
-	{
+	public void addHouse_Hotel(JLabel l){
+		
 	   	p.add(l,hc);
 		revalidate();	
+	
 	}
 	
-	
-	public void checkBuild()
-	{	
+	public void checkBuild(){
+		
 		if (curr_pl.canBuildHouse(1, 2) || curr_pl.canBuildHouse(2, 3) || curr_pl.canBuildHouse(3, 3)
 				|| curr_pl.canBuildHouse(4, 3) || curr_pl.canBuildHouse(5, 3) || curr_pl.canBuildHouse(6, 3) 
 				|| curr_pl.canBuildHouse(7, 3) || curr_pl.canBuildHouse(8, 2))
-			    house.setEnabled(true);
+			    
+			house.setEnabled(true);
 		
 		if (curr_pl.canBuildHotel(1, 2) || curr_pl.canBuildHotel(2, 3) || curr_pl.canBuildHotel(3, 3)  
 				|| curr_pl.canBuildHotel(4, 3) || curr_pl.canBuildHotel(5, 3)  || curr_pl.canBuildHotel(6, 3)  
 				|| curr_pl.canBuildHotel(7, 3)  || curr_pl.canBuildHotel(8, 2) )
-			    hotel.setEnabled(true);
+			    
+			hotel.setEnabled(true);
+	
 	}
 			
-
+	//When the player presses either the "build house" or "build hotel" button he is prompted with all the plots in which he can build.
+	//A message apppears letting him know how much it will cost and if he proceeds building he pays the money and the building is completed.
 	class houseOrHotelButtonListener implements ActionListener{
-	public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource().equals(house))
-		{
-			 String[] options = null;
-	    	 ArrayList<String> opt = new ArrayList<>();
-		     ArrayList<Integer> o = new ArrayList<>();
-		     if (curr_pl.canBuildHouse(1, 2))
-		         {opt.add("BROWN");
-		         o.add(12);}
-		     if (curr_pl.canBuildHouse(2, 3))
-			     {opt.add("LIGHT BLUE");
-			     o.add(23);}
-		     if (curr_pl.canBuildHouse(3, 3))
-			     {opt.add("PINK");
-		         o.add(33);}
-		     if (curr_pl.canBuildHouse(4, 3))
-		         {opt.add("ORANGE");
-		         o.add(43);}
-		     if (curr_pl.canBuildHouse(5, 3))
-			     {opt.add("RED");
-			     o.add(53);}
-		     if (curr_pl.canBuildHouse(6, 3))
-			     {opt.add("YELLOW");
-		         o.add(63);}
-		     if (curr_pl.canBuildHouse(7, 3))
-		         {opt.add("GREEN");
-		         o.add(73);}
-		     if (curr_pl.canBuildHouse(8, 2))
-			     {opt.add("DARK BLUE");
-			     o.add(82);}
+			if(e.getSource().equals(house)){
+				
+				String[] options = null;
+				ArrayList<String> opt = new ArrayList<>();
+				ArrayList<Integer> o = new ArrayList<>();
+				if (curr_pl.canBuildHouse(1, 2)){
+					opt.add("BROWN");
+					o.add(12);
+				}
+				if (curr_pl.canBuildHouse(2, 3)){
+					opt.add("LIGHT BLUE");
+					o.add(23);
+				}
+				if (curr_pl.canBuildHouse(3, 3)){
+					opt.add("PINK");
+					o.add(33);
+				}
+				if (curr_pl.canBuildHouse(4, 3)){
+					opt.add("ORANGE");
+					o.add(43);
+				}
+				if (curr_pl.canBuildHouse(5, 3)){
+					opt.add("RED");
+					o.add(53);
+				}
+				if (curr_pl.canBuildHouse(6, 3)){
+					opt.add("YELLOW");
+					o.add(63);
+				}
+				if (curr_pl.canBuildHouse(7, 3)){
+					opt.add("GREEN");
+					o.add(73);
+				}
+				if (curr_pl.canBuildHouse(8, 2)){
+					opt.add("DARK BLUE");
+					o.add(82);
+				}
 		     
-		    ArrayList<String> t = new ArrayList<>();
-		    options = new String[opt.size()];
-		    options = opt.toArray(options);
+				ArrayList<String> t = new ArrayList<>();
+				options = new String[opt.size()];
+				options = opt.toArray(options);
 		    
-		    j = -1;
-		    j = JOptionPane.showOptionDialog(null, "CHOOSE GROUP TO BUILT", "COLOR GROUP", 
+				j = -1;
+				j = JOptionPane.showOptionDialog(null, "CHOOSE GROUP TO BUILT", "COLOR GROUP", 
 							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
-		    if(j!=-1)
-		    {
-		    	t = curr_pl.whereToBuildHouse(o.get(j)/10 , o.get(j)%10);
-		    	options = new String[t.size()];
-		        options = t.toArray(options);
+				if(j!=-1){
+					t = curr_pl.whereToBuildHouse(o.get(j)/10 , o.get(j)%10);
+					options = new String[t.size()];
+					options = t.toArray(options);
 		    	  
-		    	i = -1;
-		        i = JOptionPane.showOptionDialog(null, "CHOOSE PLOT TO BUILT", "PLOT CHOICE", 
+					i = -1;
+					i = JOptionPane.showOptionDialog(null, "CHOOSE PLOT TO BUILT", "PLOT CHOICE", 
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
-		    	if(i!=-1)
-		    	{
-		    		PlotSquare p = null;
-		    		for (PlotSquare s : curr_pl.getTitles())
-		    		{
-		    			 if (s.getName().equals(options[i]))
-		    			 {
-		    				p=s;
-		    				break;
-		    			 }	  
-		    		}
-		      
-		    		i = JOptionPane.showConfirmDialog(null, "Do you want to build a house for " 
+					if(i!=-1){
+						
+						PlotSquare p = null;
+						for (PlotSquare s : curr_pl.getTitles()){
+							
+							if (s.getName().equals(options[i])){
+								
+								p=s;
+								break;
+							}	  
+						}
+						
+						i = JOptionPane.showConfirmDialog(null, "Do you want to build a house for " 
 		        			  +  p.getHouse().getHouse_cost()+ "?" , "BUILD HOUSE" , JOptionPane.YES_NO_OPTION);
-		    		if (i==0)
-		    		{
-		    			if (curr_pl.payMoney(p.getHouse().getHouse_cost()))
-		    		    {
-		    				JOptionPane.showMessageDialog(null, "The house has been built.", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
-		    				p.buildHouse();
-		    				whereToBuild(p);
-		    				buildAHouse(whichHousetoBuild(p),p.getN());   
-		    				updateInfo();
-		    				house.setEnabled(false);
-		    				checkBuild();
-		    			 }
-		    			else
-		    				JOptionPane.showMessageDialog(null, "You don't have enough money to built the house.","ERROR", JOptionPane.ERROR_MESSAGE); 
-		    	  
-		    		}}}
-		}
-		else if (e.getSource().equals(hotel))
-		{
-			 String[] options;
-	    	 ArrayList<String> opt = new ArrayList<>();
-		     ArrayList<Integer> o = new ArrayList<>();
-		     if (curr_pl.canBuildHotel(1, 2))
-		         {opt.add("BROWN");
-		         o.add(12);}
-		     if (curr_pl.canBuildHotel(2, 3))
-			     {opt.add("LIGHT BLUE");
-			     o.add(23);}
-		     if (curr_pl.canBuildHotel(3, 3))
-			     {opt.add("PINK");
-		         o.add(33);}
-		     if (curr_pl.canBuildHotel(4, 3))
-		         {opt.add("ORANGE");
-		         o.add(43);}
-		     if (curr_pl.canBuildHotel(5, 3))
-			     {opt.add("RED");
-			     o.add(53);}
-		     if (curr_pl.canBuildHotel(6, 3))
-			     {opt.add("YELLOW");
-		         o.add(63);}
-		     if (curr_pl.canBuildHotel(7, 3))
-		         {opt.add("GREEN");
-		         o.add(73);}
-		     if (curr_pl.canBuildHotel(8, 2))
-			     {opt.add("DARK BLUE");
-			     o.add(82);}
+						if (i==0){
+							
+							if (curr_pl.payMoney(p.getHouse().getHouse_cost())){
+								
+								JOptionPane.showMessageDialog(null, "The house has been built.", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
+								p.buildHouse();
+								whereToBuild(p);
+								buildAHouse(whichHousetoBuild(p),p.getN());   
+								updateInfo();
+								house.setEnabled(false);
+								checkBuild();
+							}else
+								JOptionPane.showMessageDialog(null, "You don't have enough money to built the house.","ERROR", JOptionPane.ERROR_MESSAGE); 
+						}
+					}
+				}
+			}else if (e.getSource().equals(hotel)){
+				
+				String[] options;
+				ArrayList<String> opt = new ArrayList<>();
+				ArrayList<Integer> o = new ArrayList<>();
+				if (curr_pl.canBuildHotel(1, 2)){
+					opt.add("BROWN");
+					o.add(12);
+				}
+				if (curr_pl.canBuildHotel(2, 3)){
+					opt.add("LIGHT BLUE");
+					o.add(23);
+				}
+				if (curr_pl.canBuildHotel(3, 3)){
+					opt.add("PINK");
+					o.add(33);
+				}
+				if (curr_pl.canBuildHotel(4, 3)){
+					opt.add("ORANGE");
+					o.add(43);
+				}
+				if (curr_pl.canBuildHotel(5, 3)){
+					opt.add("RED");
+					o.add(53);
+				}
+				if (curr_pl.canBuildHotel(6, 3)){
+					opt.add("YELLOW");
+					o.add(63);
+				}
+				if (curr_pl.canBuildHotel(7, 3)){
+					opt.add("GREEN");
+					o.add(73);
+				}
+				if (curr_pl.canBuildHotel(8, 2)){
+					opt.add("DARK BLUE");
+					o.add(82);
+				}
 		      
-		      
-		     ArrayList<String> t = new ArrayList<>();
-		     options = new String[opt.size()];
-		     options = opt.toArray(options);
+				ArrayList<String> t = new ArrayList<>();
+				options = new String[opt.size()];
+				options = opt.toArray(options);
 			 
-		     j = -1;
-		     j = JOptionPane.showOptionDialog(null, "CHOOSE GROUP TO BUILT", "COLOR GROUP", 
+				j = -1;
+				j = JOptionPane.showOptionDialog(null, "CHOOSE GROUP TO BUILT", "COLOR GROUP", 
 				  JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
-		     if(j!=-1)
-		     {
-		    	t = curr_pl.whereToBuildHotel(o.get(j)/10 , o.get(j)%10);
-		    	options = new String[t.size()];
-		    	options = t.toArray(options);
+				
+				if(j!=-1){
+					
+					t = curr_pl.whereToBuildHotel(o.get(j)/10 , o.get(j)%10);
+					options = new String[t.size()];
+					options = t.toArray(options);
 		    	  
-		    	i = -1;
-		        i = JOptionPane.showOptionDialog(null, "CHOOSE PLOT TO BUILT", "PLOT CHOICE", 
+					i = -1;
+					i = JOptionPane.showOptionDialog(null, "CHOOSE PLOT TO BUILT", "PLOT CHOICE", 
 						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
 		 
-		        if (i!=-1)
-		    	{
-		    		PlotSquare p = null;
-		    		for (PlotSquare s : curr_pl.getTitles())
-		    		{
-		    			if (s.getName().equals(options[i]))
-		    			{
-		    				 p=s;
-		    			     break;
-		    			}	  
-		    		 }
+					if (i!=-1){
+						
+						PlotSquare p = null;
+						for (PlotSquare s : curr_pl.getTitles()){
+							
+							if (s.getName().equals(options[i])){
+								
+								p=s;
+								break;
+							}	  
+						}
 		      
-		    		 i = JOptionPane.showConfirmDialog(null, "Do you want to build a hotel for " 
-		        		 +  p.getHotel().getHotel_cost()+ "?" , "BUILD HOTEL" , JOptionPane.YES_NO_OPTION);
-		    		 if (i==0)
-		    		 {
-		    			if (curr_pl.payMoney(p.getHotel().getHotel_cost()))
-		    			{
-		    				JOptionPane.showMessageDialog(null, "The hotel has been built.", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
-		    				p.setHotel_built(true);
-		    				whereToBuild(p);
-		    				buildHotel(whichHoteltoBuild(p));   
-		    			    updateInfo();
-		    			    hotel.setEnabled(false);
-		    			    checkBuild();
-		    			}
-		    		    else
-		    					  JOptionPane.showMessageDialog(null, "You don't have enough money to built the house.","ERROR", JOptionPane.ERROR_MESSAGE); 
-		        	 }}}
-		      }
-	}}
+						i = JOptionPane.showConfirmDialog(null, "Do you want to build a hotel for " 
+								+  p.getHotel().getHotel_cost()+ "?" , "BUILD HOTEL" , JOptionPane.YES_NO_OPTION);
+						if (i==0){
+							
+							if (curr_pl.payMoney(p.getHotel().getHotel_cost())){
+								
+								JOptionPane.showMessageDialog(null, "The hotel has been built.", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
+								p.setHotel_built(true);
+								whereToBuild(p);
+								buildHotel(whichHoteltoBuild(p));   
+								updateInfo();
+								hotel.setEnabled(false);
+								checkBuild();
+							
+							}else
+								
+								JOptionPane.showMessageDialog(null, "You don't have enough money to built the house.","ERROR", JOptionPane.ERROR_MESSAGE); 
+						}
+					}
+				}
+		     }
+		}
+	}
 
-	public void Build()
-	{
+	public void Build(){
+		
 		house.setEnabled(false);
 		hotel.setEnabled(false);
 		checkBuild();
+	
 	}
 	
-	
-	public void dealWithJail()
-	{
+	//When a player is in jail, he can get out of it using 4 ways. He will either roll the dice and if it's a double dice, he gets out, or
+	//will pay 100$ fine. In case he has drawn a get out of jail card, he may use it to get out of jail. If someone else has that card
+	//then he may ask to buy it and then use it.
+	public void dealWithJail(){
+		
 		Object option[] = {"ROLL DICE", "PAY FINE(100$)" , "GET OUT OF JAIL CARD", "BUY CARD FROM ANOTHER PLAYER"};
 		jail_choice = JOptionPane.showOptionDialog(null, "PLAYER : " + curr_pl.getName() + " PICK AN OPTION TO GET OUT OF JAIL \n"   
 				, "JAIL", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
 	
-	    if (jail_choice==1)  
-		 {
-			 if (curr_pl.payMoney(100))
-		     {
-				 updateInfo();
-			     JOptionPane.showMessageDialog(null,"THE FINE HAS BEEN PAID. ROLL THE DICE");
-			     curr_pl.setInJail(false);	
-			 }
-			 else 
-			 {
-			     JOptionPane.showMessageDialog(null,"THE FINE HAS NOT BEEN PAID. \n"
+	    if (jail_choice==1){
+	    	
+			if (curr_pl.payMoney(100)){
+				
+				updateInfo();
+			    JOptionPane.showMessageDialog(null,"THE FINE HAS BEEN PAID. ROLL THE DICE");
+			    curr_pl.setInJail(false);	
+			}else{
+				
+			    JOptionPane.showMessageDialog(null,"THE FINE HAS NOT BEEN PAID. \n"
 			    		 + "YOU DON'T HAVE ENOUGH MONEY. PICK ANOTHER OPTION");
-			     dealWithJail();
-			 }	    	
-		 }
-	     else if (jail_choice==2)
-	     {
-	    	 if(curr_pl.isGetOutOfJail())
-	    	 { 
-	    		 curr_pl.setInJail(false);
-	    		 curr_pl.setGetOutOfJail(false);
-	    		 JOptionPane.showMessageDialog(null, "YOU USED YOUR CARD. ROLL THE DICE");
-	    	 }
-	    	 else
-	    	 {
-	    		 JOptionPane.showMessageDialog(null, "YOU DON'T HAVE A GET OUT OF JAIL CARD. PICK ANOTHER OPTION.");
-	    		 dealWithJail();
-	    	 }
-	     }
-	     else if (jail_choice==3)
-	     {
-	    	 Player p_card = null;   // we assume that only one get out of jail free card exists
+			    dealWithJail();
+			}	    	
+	    }else if (jail_choice==2){
+	    	
+	    	if(curr_pl.isGetOutOfJail()){
+	    		
+	    		curr_pl.setInJail(false);
+	    		curr_pl.setGetOutOfJail(false);
+	    		JOptionPane.showMessageDialog(null, "YOU USED YOUR CARD. ROLL THE DICE");
+	    	
+	    	}else{
+	    		JOptionPane.showMessageDialog(null, "YOU DON'T HAVE A GET OUT OF JAIL CARD. PICK ANOTHER OPTION.");
+	    		dealWithJail();
+	    	}
+	    }else if (jail_choice==3){
+	    	
+	    	Player p_card = null;   // we assume that only one get out of jail free card exists
 	    	 
-	    	 for (Player p : board.getPlayers())
-	    	 {
+	    	for (Player p : board.getPlayers()){
+	    		
 	    		 if (p.getCode() != curr_pl.getCode() && p.isGetOutOfJail())
 	    			 p_card=p;
-	    	 }
+	    	
+	    	}
 	    	 
-	    	 if (p_card == null)
-	    	 {
-	    		 JOptionPane.showMessageDialog(null, "THERE ISN'T ANOTHER PLAYER WITH A CARD.\n"
-	    				 + "PICK ANOTHER OPTION.");
-	    		 dealWithJail();
-	    	 }
-	    	 else
-	    	 {
-	    		 j = JOptionPane.showConfirmDialog(null,"PLAYER : " + p_card.getName() + " DO YOU WANT TO SELL YOUR CARD?",
+	    	if (p_card == null){
+	    		JOptionPane.showMessageDialog(null, "THERE ISN'T ANOTHER PLAYER WITH A CARD.\n"
+	    				+ "PICK ANOTHER OPTION.");
+	    		dealWithJail();
+	    	}else{
+	    		
+	    		j = JOptionPane.showConfirmDialog(null,"PLAYER : " + p_card.getName() + " DO YOU WANT TO SELL YOUR CARD?",
 	    				"SELL CARD",JOptionPane.YES_NO_OPTION );
 	    		 
-	    		 if (j==0)
-	    		 {
-	    			 int price = -1;
+	    		if (j==0){
+	    			
+	    			int price = -1;
 	    			 
-	    			 do{
-	    			    String answer = JOptionPane.showInputDialog(null, "PLAYER : " + p_card.getName() + 
+	    			do{
+	    				String answer = JOptionPane.showInputDialog(null, "PLAYER : " + p_card.getName() + 
 	    					 " SET THE PRICE UP TO 100$.\n");
-	    			    if (answer == null)
-	    			    {
+	    				if (answer == null){
+	    					
 	    				    JOptionPane.showMessageDialog(null, "THE PLAYER HAS CANCELED SELLING HIS/HER CARD. \n"
 	    						+ "PICK ANOTHER OPTION.", "UPDATE", JOptionPane.INFORMATION_MESSAGE);
 	    				    dealWithJail();
 	    				    break;
-	    			    }
-	    			    else
-	    			    {
+	    			    }else{
+	    			    	
 	    			        try{price = Integer.parseInt(answer);} 
 	    			        catch (NumberFormatException e) {price = -1;}
-	    			    }}
-	    			  while(price==-1 || price>100 || price==0);
+	    			    
+	    			    }
+	    			}while(price==-1 || price>100 || price==0);
 	    				  
 
-	 	    		    i = JOptionPane.showConfirmDialog(null,"PLAYER : " + curr_pl.getName() + " DO YOU WANT TO BUY THE CARD FOR " + price + "$ ?",
+	    			i = JOptionPane.showConfirmDialog(null,"PLAYER : " + curr_pl.getName() + " DO YOU WANT TO BUY THE CARD FOR " + price + "$ ?",
 	    		    				"BUY CARD",JOptionPane.YES_NO_OPTION );
-	    			    if (i==0)
-	    			    {
-	    					JOptionPane.showMessageDialog(null,"THE CARD HAS BEEN BOUGHT. YOU ARE FREE. \n" + "ROLL THE DICE.");
-	    					curr_pl.setInJail(false);
-	    					p_card.setGetOutOfJail(false);
-	    					curr_pl.payMoney(price);
-	    					p_card.earnMoney(price); 
+	    			if (i==0){
+	    				
+	    				JOptionPane.showMessageDialog(null,"THE CARD HAS BEEN BOUGHT. YOU ARE FREE. \n" + "ROLL THE DICE.");
+	    				curr_pl.setInJail(false);
+	    				p_card.setGetOutOfJail(false);
+	    				curr_pl.payMoney(price);
+	    				p_card.earnMoney(price); 
 	    					
-	    					PlayTheGame();
-	    			    }
-	    			    else
-	    			    {
-	    				   JOptionPane.showMessageDialog(null, "YOU DON'T WANT TO BUY THE CARD. \n" + 
-	    				    		"PICK ANOTHER OPTION.");
-	    			       dealWithJail();
-	    			    }
-	    			 }
-	    		 else
-	    		 {
-	    			 JOptionPane.showMessageDialog(null, "THE PLAYER HAS DECLINED TO SELL HIS/HER CARD. \n"
-	    					 + "PICK ANOTHER OPTION.");
-	    			 dealWithJail();
-	    		 }
-	    	 }
-	     }
-		
+	    				PlayTheGame();
+	    			}else{
+	    				JOptionPane.showMessageDialog(null, "YOU DON'T WANT TO BUY THE CARD. \n" + 
+	    						"PICK ANOTHER OPTION.");
+	    				dealWithJail();
+	    			 
+	    			}
+	    			 
+	    		}else{
+	    			
+	    			JOptionPane.showMessageDialog(null, "THE PLAYER HAS DECLINED TO SELL HIS/HER CARD. \n"
+	    					+ "PICK ANOTHER OPTION.");
+	    			dealWithJail();
+	    		}
+	    	}
+	    }	
 	}
 
-
-	
-
-       
-    }
+}
