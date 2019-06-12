@@ -9,13 +9,10 @@ public class TaxSquare extends Square {
 		this.tax=tax;
 	}
 	
-	public boolean payTax(Player p)
-	{
-		return p.payMoney(tax);
-	}
-	
 	public int getTax() {
 		return tax;
 	}
+	
+	
 
 }

@@ -8,4 +8,12 @@ public class UtilitySquare extends Square{
 		
 	}
 	
+	public String showInfo()
+	{
+		return "Name : " + super.getName() + "\nPrice : " + super.getPrice() + "\nRent : (Defined by the dice)" 
+				+ "\n\nIf one utility is owned,\nrent is 4 times amount \nshown on dice." + "\n\n"
+				+ "If both utilities are owned,\nrent is 10 times amount \nshown on dice.";
+	}
+
+	
 }

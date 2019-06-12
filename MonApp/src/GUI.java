@@ -13,13 +13,14 @@ public class GUI extends JFrame {
 	private JButton b[] = new JButton[40];
 	private GridBagConstraints c[] = new GridBagConstraints[40];
 	
-	private JButton decision;
-	private GridBagConstraints dc = new GridBagConstraints();
+	private JButton community_chest;
+	private GridBagConstraints com_c = new GridBagConstraints();
 	
-	private JButton order;
-	private GridBagConstraints oc = new GridBagConstraints();
+	private JButton chance;
+	private GridBagConstraints chance_c = new GridBagConstraints();
 	
 	private JTextArea info;
+	private JScrollPane sp;
 	private GridBagConstraints ic = new GridBagConstraints();
 	
 	private JButton dice_1;
@@ -34,10 +35,14 @@ public class GUI extends JFrame {
 	private JButton house;
 	private GridBagConstraints housec = new GridBagConstraints();
 	
+	private JButton show_info;
+	private GridBagConstraints show_c = new GridBagConstraints();
+	
 	private int rows; //button layout
 	private int cols;
 	
 	private int i,j;
+	
 	
 	JLabel choice1  = new JLabel();
 	JLabel choice2  = new JLabel();
@@ -49,6 +54,7 @@ public class GUI extends JFrame {
 	private int car_taken = 0;
 	private int ship_taken = 0;
 	
+	
 	GridBagConstraints hc = new GridBagConstraints();
 	
 	Player curr_pl;
@@ -59,17 +65,16 @@ public class GUI extends JFrame {
 	int counter = 0; // counts the number of equal dice
 	
 	rollDiceButtonListener listener = new rollDiceButtonListener();
-	OrderOrDecisionButtonListener card_listener = new OrderOrDecisionButtonListener();
+	CommunityChestOrChanceCardButtonListener card_listener = new CommunityChestOrChanceCardButtonListener();
+	showInfoButtonListener info_listener = new showInfoButtonListener();
 	
 	int jail_choice = -1;
 	
+	
 	public GUI(Board board)
 	{
-		
 		this.board=board;
-		
-		Frame();
-		
+		Frame();	
 	}
 	
 	public void Frame()
@@ -88,6 +93,7 @@ public class GUI extends JFrame {
 		
 		p.add(welcome);
 		p.add(start);
+	
 		
 		start.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -131,6 +137,7 @@ public class GUI extends JFrame {
 		return false;
 		
 	}
+	
 	
 	public boolean getPlayerName()
 	{
@@ -196,6 +203,7 @@ public class GUI extends JFrame {
 		Image ship = new ImageIcon(this.getClass().getResource("/ship.png")).getImage();
 		Image ship_b = new ImageIcon(this.getClass().getResource("/ship_big.png")).getImage();
 		
+		
 		JButton l1 = new JButton(new ImageIcon(ship_b));
 		JButton l2 = new JButton(new ImageIcon(car_b));
 	    JButton l3 = new JButton(new ImageIcon(shoe_b));
@@ -205,6 +213,7 @@ public class GUI extends JFrame {
 			
 	    JPanel p1 = new JPanel();
 	    JPanel p2 = new JPanel();
+	    
 	    
 	    p1.setBackground(Color.white);
 	    p2.setBackground(Color.white);
@@ -218,6 +227,7 @@ public class GUI extends JFrame {
 		l2.setBackground(new Color(232,232,232));
 		l3.setBackground(new Color(232,232,232));
 		l4.setBackground(new Color(232,232,232));
+			
 		
 		p.add(p1);
 		p.add(p2);
@@ -245,6 +255,8 @@ public class GUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
 					}});
 			
+			
+			
 			l2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(car_taken==0)
@@ -256,6 +268,8 @@ public class GUI extends JFrame {
 					else
 						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
 					}});
+			
+			
 			
 			l3.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -269,6 +283,8 @@ public class GUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
 					}});
 			
+			
+			
 			l4.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(hat_taken==0)
@@ -280,6 +296,8 @@ public class GUI extends JFrame {
 					else
 						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
 					}});
+				
+		
 	}
 	
 	public void choosePawn(JLabel label)
@@ -306,11 +324,13 @@ public class GUI extends JFrame {
 		}
 	}
 	
+	
 	public void getThePlayers()
 	{
 		if (getNumberofPlayers() && getPlayerName())
 			getPlayerIcon(); 	
 	}	
+	
 	
 	public void layoutOfButtons() 
 	{
@@ -326,9 +346,11 @@ public class GUI extends JFrame {
 		}	
 	}
 	
+	
 	public void BuildBoard()
 	{
 		p=new JPanel();
+		p.setBackground(new Color(205,230,208));
 		p.setLayout(new GridBagLayout());
 		this.setContentPane(p);
 		
@@ -338,154 +360,224 @@ public class GUI extends JFrame {
 		{
 			b[i] = new JButton();
 			b[i].setLayout(new GridLayout(rows,cols));
-			b[i].setText("" + i);
+			b[i].setText("" + i );
+			b[i].setFont(new Font("Arial", Font.PLAIN,0));
+			b[i].setBackground(new Color(205,230,208));
 			b[i].setPreferredSize(new Dimension(60,60));
 			c[i] = new GridBagConstraints();	
 		}
 		
 		//creating the board
-		j=10;
-		for(i=0;i<=10;i++)
-		{  c[i].fill=GridBagConstraints.BOTH;
-           c[i].weightx= 0.5;
-           c[i].weighty= 0.5;
-   		   c[i].gridx=j;
-   		   c[i].gridy=10;
-   		   c[i].ipady=50;
-   		   c[i].ipadx=90;
-   		   p.add(b[i],c[i]);
-   		   j--;
-		}
+				j=10;
+				for(i=0;i<=10;i++)
+				{  c[i].fill=GridBagConstraints.BOTH;
+		           c[i].weightx= 0.5;
+		           c[i].weighty= 0.5;
+		   		   c[i].gridx=j;
+		   		   c[i].gridy=10;
+		   		   c[i].ipady=50;
+		   		   c[i].ipadx=90;
+		   		   p.add(b[i],c[i]);
+		   		   j--;
+				}
+				
+				j=0;
+				for(i=20;i>=11;i--)
+				{  
+				   c[i].fill= GridBagConstraints.BOTH;
+				   c[i].weightx= 0.5;
+		           c[i].weighty= 0.5;
+		   		   c[i].gridx=0;
+		   		   c[i].gridy=j;
+		   		   c[i].ipady=50;
+		   		   c[i].ipadx=90;
+		   		   p.add(b[i],c[i]);
+		   		   j++;
+				}
+				
+				j=1;
+				for(i=21;i<=30;i++)
+				{  c[i].fill=GridBagConstraints.BOTH;
+				   c[i].weightx= 0.5;
+		           c[i].weighty= 0.5;
+		   		   c[i].gridx=j;
+		   		   c[i].gridy=0;
+		   		   c[i].ipady=50;
+		 		   c[i].ipadx=90;
+		   		   p.add(b[i],c[i]);
+		   		   j++;
+				}
+				
+				j=1;
+				for(i=31;i<=39;i++)
+				{  c[i].fill=GridBagConstraints.BOTH;
+				   c[i].weightx= 0.5;
+		           c[i].weighty= 0.5;
+		   		   c[i].gridx=10;
+		   		   c[i].gridy=j;
+		   		   c[i].ipady=50;
+				   c[i].ipadx=90;
+		   		   p.add(b[i],c[i]);
+		   		   j++;
+				}
 		
-		j=0;
-		for(i=20;i>=11;i--)
-		{  
-		   c[i].fill= GridBagConstraints.BOTH;
-		   c[i].weightx= 0.5;
-           c[i].weighty= 0.5;
-   		   c[i].gridx=0;
-   		   c[i].gridy=j;
-   		   c[i].ipady=50;
-   		   c[i].ipadx=90;
-   		   p.add(b[i],c[i]);
-   		   j++;
-		}
-		
-		j=1;
-		for(i=21;i<=30;i++)
-		{  c[i].fill=GridBagConstraints.BOTH;
-		   c[i].weightx= 0.5;
-           c[i].weighty= 0.5;
-   		   c[i].gridx=j;
-   		   c[i].gridy=0;
-   		   c[i].ipady=50;
- 		   c[i].ipadx=90;
-   		   p.add(b[i],c[i]);
-   		   j++;
-		}
-		
-		j=1;
-		for(i=31;i<=39;i++)
-		{  c[i].fill=GridBagConstraints.BOTH;
-		   c[i].weightx= 0.5;
-           c[i].weighty= 0.5;
-   		   c[i].gridx=10;
-   		   c[i].gridy=j;
-   		   c[i].ipady=50;
-		   c[i].ipadx=90;
-   		   p.add(b[i],c[i]);
-   		   j++;
-		}
 		
 		//adding buttons
-		decision = new JButton("Community Chest");
-		decision.setFont(new Font("Serif",Font.BOLD + Font.ITALIC,0));
-		//decision.setBackground(new Color(253,157,48));
-		Image im1 = new ImageIcon(this.getClass().getResource("/chest.jpg")).getImage();
-		decision.setIcon(new ImageIcon(im1));
-		dc.gridx=2;
-	    dc.gridy=2;
-	    dc.ipadx=20;
-	    dc.ipady=40;
-	    decision.setEnabled(false);
-	    p.add(decision,dc);
+		community_chest = new JButton();
+		Image im1 = new ImageIcon(this.getClass().getResource("/cc.png")).getImage();
+		community_chest.setIcon(new ImageIcon(im1));
+		community_chest.setBackground(new Color(208,208,208));
+		com_c.gridx=1;
+	    com_c.gridy=2;
+	    com_c.gridwidth=3;
+	    com_c.gridheight=2;
+	    community_chest.setEnabled(false);
+	    p.add(community_chest,com_c);
 	    
-	    order = new JButton("Chance");
-	    order.setFont(new Font("Serif",Font.BOLD + Font.ITALIC,0));
-	    //order.setBackground(new Color(60,203,246));
-	    Image im2 = new ImageIcon(this.getClass().getResource("/chance.jpg")).getImage();
-	    order.setIcon(new ImageIcon(im2));
-		oc.gridx=8;
-	    oc.gridy=8;
-	    oc.ipadx=45;
-	    oc.ipady=35;
-	    order.setEnabled(false);
-	    p.add(order,oc);
+	    
+	    chance = new JButton();
+	    Image im2 = new ImageIcon(this.getClass().getResource("/c.png")).getImage();
+        chance.setIcon(new ImageIcon(im2));
+        chance.setBackground(new Color(200,200,200));
+		chance_c.gridx=7;
+	    chance_c.gridy=7;
+	    chance_c.gridwidth=3;
+	    chance_c.gridheight=2;
+	    chance.setEnabled(false);
+	    p.add(chance,chance_c);
 	    
 	    info = new JTextArea("PLAYER'S INFO  \n" + "Name : \n" + "Money : \n" + "Titles : \n" + "Stations : \n" + "Utilities : \n" , 10,4);
 	    info.setEditable(false);
 	    ic.fill = GridBagConstraints.BOTH;
-		ic.gridx=5;
+		ic.gridx=4;
 	    ic.gridy=4;
-	    ic.gridheight=2;
-	    ic.gridwidth=2;
-	    p.add(info,ic);
+	    ic.gridheight=5;
+	    ic.gridwidth=3;
+	    sp = new JScrollPane(info);
+	    p.add(sp,ic);
 	    
 	    dice_1= new JButton("Dice 1");
 	    dice_1.addActionListener(listener);
-	    dice_1.setPreferredSize(new Dimension(60,20));
-	    dice_1.setBackground(new Color(247,239,230));
+	   // dice_1.setPreferredSize(new Dimension(60,60));
+	    dice_1.setBackground(new Color(227,227,227));
 	    dice_1.setFont(new Font("Arial",Font.BOLD,12));
-	    d1c.ipadx=10;
-	    d1c.ipady=50;
-		d1c.gridx=5;
+	    d1c.gridwidth = 1;
+	    d1c.gridheight=2;
+		d1c.gridx=4;
 	    d1c.gridy=2;
 	    p.add(dice_1,d1c);
 	    
+	    
 	    dice_2= new JButton("Dice 2");
 	    dice_2.addActionListener(listener);
-	    dice_2.setPreferredSize(new Dimension(60,20));
-	    dice_2.setBackground(new Color(247,239,230));
+	   // dice_2.setPreferredSize(new Dimension(60,60));
+	    dice_2.setBackground(new Color(227,227,227));
 	    dice_2.setFont(new Font("Arial",Font.BOLD,12));
-	    d2c.ipadx=10;
-	    d2c.ipady=50;
+	    d2c.gridheight=2;
 		d2c.gridx=6;
 	    d2c.gridy=2;
 	    p.add(dice_2,d2c);
 	    
-	    house = new JButton("Build \n" + "house");
+	    
+	    house = new JButton("Build house");
 	    house.setFont(new Font("Arial",Font.BOLD,14));
-	    house.setBackground(new Color(250,67,67));
+	    house.setBackground(new Color(29,193,24));
 	    house.setEnabled(false);
 		housec.gridx=2;
 	    housec.gridy=5;
 	    housec.ipadx=30;
 	    housec.ipady=20;
+	    housec.gridwidth=2;
 	    housec.anchor= GridBagConstraints.NORTH;
 	    p.add(house,housec);
 	    
-	    hotel = new JButton("Build \n" + "hotel");
+	    
+	    hotel = new JButton("Build hotel");
 	    hotel.setFont(new Font("Arial",Font.BOLD,14));
-	    hotel.setBackground(new Color(250,255,67));
+	    hotel.setBackground(Color.RED);
 	    hotel.setEnabled(false);
 	    hotelc.gridx=2;
 	    hotelc.gridy=6;
 	    hotelc.ipadx=40;
 	    hotelc.ipady=20;
-	    hotelc.anchor=GridBagConstraints.SOUTH;
+	    hotelc.gridwidth=2;
+	    hotelc.anchor=GridBagConstraints.NORTH;
 	    p.add(hotel,hotelc);
-	  
+	    
+	    show_info = new JButton("Property info");
+	    show_info.setFont(new Font("Arial",Font.BOLD + Font.ITALIC,15));
+	    show_info.setBackground(Color.CYAN);
+	    show_info.addActionListener(info_listener);
+	    show_c.gridx=2;
+	    show_c.gridy=7;
+	    show_c.gridwidth=2;
+	    show_c.ipadx=23;
+	    show_c.ipady=20;
+	    show_c.anchor=GridBagConstraints.SOUTH;
+	    p.add(show_info,show_c);
+	    
 		this.setVisible(true);
-		this.setSize(1500,900);
+		this.setSize(1800,750);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		
 		makeSquares();
 		createPawns();
 		curr_pl = board.getCurr_pl();
 		
+		
+		/*
+		curr_pl.getTitles().add(board.getPlot_squares().get(0));
+		curr_pl.getTitles().add(board.getPlot_squares().get(1));
+		curr_pl.getTitles().add(board.getPlot_squares().get(2));
+	    curr_pl.getTitles().add(board.getPlot_squares().get(3));
+		curr_pl.getTitles().add(board.getPlot_squares().get(4));
+		curr_pl.getTitles().add(board.getPlot_squares().get(5));
+		curr_pl.getTitles().add(board.getPlot_squares().get(6));
+		curr_pl.getTitles().add(board.getPlot_squares().get(7));
+		curr_pl.getTitles().add(board.getPlot_squares().get(8));
+		curr_pl.getTitles().add(board.getPlot_squares().get(9));
+	    curr_pl.getTitles().add(board.getPlot_squares().get(10));
+		curr_pl.getTitles().add(board.getPlot_squares().get(11));
+		curr_pl.getTitles().add(board.getPlot_squares().get(12));
+		curr_pl.getTitles().add(board.getPlot_squares().get(13));
+		curr_pl.getTitles().add(board.getPlot_squares().get(14));
+		curr_pl.getTitles().add(board.getPlot_squares().get(15));
+		curr_pl.getTitles().add(board.getPlot_squares().get(16));
+	    curr_pl.getTitles().add(board.getPlot_squares().get(17));
+		curr_pl.getTitles().add(board.getPlot_squares().get(18));
+		curr_pl.getTitles().add(board.getPlot_squares().get(19));
+		curr_pl.getTitles().add(board.getPlot_squares().get(20));
+		curr_pl.getTitles().add(board.getPlot_squares().get(21));
+		
+		curr_pl.getUtilities().add((UtilitySquare) board.getSquares().get(16));
+		curr_pl.getStations().add((StationSquare) board.getSquares().get(13));
+		
+		
+		
+		board.getPlot_squares().get(0).buildHouse();
+		board.getPlot_squares().get(0).buildHouse();
+		//board.getPlot_squares().get(0).buildHouse();
+		board.getPlot_squares().get(0).setP(curr_pl);
+		//board.getPlot_squares().get(0).buildHouse();
+		
+		board.getPlot_squares().get(1).buildHouse();
+		board.getPlot_squares().get(1).buildHouse();
+		//board.getPlot_squares().get(1).buildHouse();
+		//board.getPlot_squares().get(1).buildHouse();
+		board.getPlot_squares().get(1).setP(curr_pl);
+		//board.getPlot_squares().get(1).buildHouse();
+		
+		Build();
+		
+		
+		*/
+		
 		PlayTheGame();
+		
+		
 	}
 
 	public void makeSquares()
@@ -496,10 +588,8 @@ public class GUI extends JFrame {
 	  for(Square s : board.getSquares())
 	  {
 		  for (i=0;i<40;i++)
-		      if (b[i].getText().equals(s.getN())) {
-		    	  b[i].setFont(new Font("Arial", Font.PLAIN, 0));
+		      if (b[i].getText().equals(s.getN()))
 			      b[i].setIcon(s.getLabel().getIcon());
-		      }
 	  }	
 	}
 	
@@ -509,7 +599,57 @@ public class GUI extends JFrame {
 		    b[0].add(x.getLabel());
 	}
 	
-	class rollDiceButtonListener implements ActionListener{
+	
+  class showInfoButtonListener implements ActionListener{
+	  public void actionPerformed(ActionEvent e) {
+		  
+	  if (e.getSource().equals(show_info))
+	  {
+		  String options[] = {"TITLES", "UTILITIES" , "STATIONS"};
+		  ArrayList<String> str = new ArrayList<>();
+		 
+		  i = -1;
+	      i = JOptionPane.showOptionDialog(null, "CHOOSE CATEGORY TO VIEW INFORMATION", "INFORMATION", 
+							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 	
+	      if(i==0)
+	    	  for(PlotSquare x : curr_pl.getTitles())
+		    	  str.add(x.getName()); 
+	      else if(i==1)
+	    	  for(UtilitySquare x : curr_pl.getUtilities())
+		    	  str.add(x.getName());
+	      else if(i==2)
+	    	  for(StationSquare x : curr_pl.getStations())
+		    	  str.add(x.getName());
+	      
+	      if (i != -1)
+	      {
+	    	  options = new String[str.size()];
+	    	  options = str.toArray(options);
+	    	  j = JOptionPane.showOptionDialog(null, "CHOOSE PROPERTY TO VIEW INFORMATION", "INFORMATION", 
+						JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
+	    	  
+	    	  String s = null;
+		      if (i==0)
+		          s = curr_pl.getTitles().get(j).showInfo();
+		      else if (i==1)
+		    	  s = curr_pl.getUtilities().get(j).showInfo();
+		      else 
+		    	  s = curr_pl.getStations().get(j).showInfo();
+		      
+		      if (s!=null)
+		         JOptionPane.showMessageDialog(null, s, "PROPERTY INFO", JOptionPane.PLAIN_MESSAGE);
+	      }
+	      
+	      
+	     
+	      
+	      
+	  }
+	  
+	  
+	  
+  }}
+  class rollDiceButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource().equals(dice_1))
@@ -552,6 +692,7 @@ public class GUI extends JFrame {
 		    else 
 		    	url2 = "/6.png" ;
 			
+			
 			Image im2 = new ImageIcon(this.getClass().getResource(url2)).getImage();
             dice_2.setIcon(new ImageIcon(im2));
 	        dice_2.setFont(new Font("Arial",Font.PLAIN,0));
@@ -592,6 +733,7 @@ public class GUI extends JFrame {
 		b[curr_pl.getPosition()].remove(curr_pl.getLabel());
 		b[curr_pl.getPosition()].updateUI();
 	}
+	
 	
 	public void placePawn()
 	{
@@ -663,10 +805,12 @@ public class GUI extends JFrame {
 		 removePawn();
 		 curr_pl.changePosition(move);
 		 placePawn();
+		 updateInfo();
 		 
 		 Square s = findTheSquare(curr_pl);	
 	     playSquare(s);	
 	}
+	
 	
 	public void calculateMove()
 	{	
@@ -749,7 +893,7 @@ public class GUI extends JFrame {
 			     		+ "YOU ARE GOING TO JAIL.");
 			     
 			        removePawn();
-			        curr_pl.setPosition(10);
+			        curr_pl.setPosition(5);
 			        curr_pl.setInJail(true);
 			        placePawn();
 			     
@@ -765,6 +909,8 @@ public class GUI extends JFrame {
 			 curr_pl = board.changeTurn();
 			 Build();
 		 }
+		
+		 
 	}
 	
 	public void playSquare(Square s)
@@ -790,13 +936,14 @@ public class GUI extends JFrame {
 		 
 	}
 	
+	
 	public void playTaxSquare(TaxSquare s)
 	{
 		Object option[] = {"PAY THE TAX"};
 		i = JOptionPane.showOptionDialog(null, "YOU MUST PAY THE TAX " + s.getTax() + "$", "INFO", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
 		
-		if (!s.payTax(curr_pl))
+		if (!curr_pl.payMoney(s.getTax()))
 		{
 		     JOptionPane.showMessageDialog(null,"YOU DON'T HAVE ENOUGH MONEY. \n"
 		    	 		+ "YOU ARE BANKRUPT.");
@@ -811,47 +958,54 @@ public class GUI extends JFrame {
 	   PlayTheGame();	
 	}
 	
+	
 	public void playCardSquare(CardSquare s)
 	{
 		dice_1.setEnabled(false);
 		dice_2.setEnabled(false);
 		
-		if (s.getN().equals("2"))
+		if (s.getN().equals("2") || s.getN().equals("17") || s.getN().equals("33"))
 	    {
 			
 			JOptionPane.showMessageDialog(null,"PICK A COMMUNNITY CHEST CARD");
-			decision.addActionListener(card_listener);
-			decision.setEnabled(true);
+			community_chest.addActionListener(card_listener);
+			community_chest.setBackground(new Color(183,206,186));
+			community_chest.setEnabled(true);
 	    }
 		else 
 		{
-			JOptionPane.showMessageDialog(null,"PICK AN ORDER CARD");
-			order.addActionListener(card_listener);
-			order.setEnabled(true);
+			JOptionPane.showMessageDialog(null,"PICK A CHANCE CARD");
+			chance.addActionListener(card_listener);
+			chance.setBackground(new Color(238,152,79));
+			chance.setEnabled(true);
 		}
 		
 	}
+	
 
-	class OrderOrDecisionButtonListener implements ActionListener{
+	class CommunityChestOrChanceCardButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			
-			if (e.getSource().equals(decision))
+			if (e.getSource().equals(community_chest))
 			{
-				pickADecisionCard();
-				decision.setEnabled(false);
+				pickCommunityChestCard();
+				community_chest.setEnabled(false);
+				community_chest.setBackground(new Color(208,208,208));
 			}
-			else if (e.getSource().equals(order))
+			else if (e.getSource().equals(chance))
 			{
-				 pickAnOrderCard();
-				 order.setEnabled(false);
+				 pickChanceCard();
+				 chance.setEnabled(false);
+				 chance.setBackground(new Color(200,200,200));
 		    }
 		}
 	}
 	
-	public void pickADecisionCard()
+	
+	public void pickCommunityChestCard()
 	{	
 		Card c = new Card();
-		c = board.generateCard(curr_pl,'d');
+		c = board.generateCard(curr_pl,0);
 		
 		if (c!=null)
 		{
@@ -872,15 +1026,16 @@ public class GUI extends JFrame {
 			    placePawn();
 			    
 			    Square s = findTheSquare(curr_pl);
-				playSquare(s);	
+				playSquare(s);
 		   } 
 		 }
 	}
 	
-	public void pickAnOrderCard()
+	
+	public void pickChanceCard()
 	{
 		Card c = new Card();
-	    c = board.generateCard(curr_pl,'o');
+	    c = board.generateCard(curr_pl,1);
 	    
 		if (c!=null)
 		{
@@ -889,14 +1044,17 @@ public class GUI extends JFrame {
 		   {
 			   if (!c.executeTheCard(curr_pl, board))
 			   {
-				   JOptionPane.showMessageDialog(null, "YOU CAN'T PAY ALL THE PLAYERS\n"
+				   JOptionPane.showMessageDialog(null, "YOU CAN'T PAY ALL THE PLAYERS.\n"
 				   		+ "YOU ARE BANKRUPT.\n", "INFO", JOptionPane.ERROR_MESSAGE);
 				   removePawn();
 				   curr_pl.setBankrupt(true);
 			   }
 			   else
 				   JOptionPane.showMessageDialog(null, "ALL THE PLAYERS HAVE BEEN"
-				   		+ " PAID SUCCESSFULLY.", "INFO",JOptionPane.INFORMATION_MESSAGE); 
+				   		+ " PAID SUCCESSFULLY.", "INFO",JOptionPane.INFORMATION_MESSAGE);
+			   
+			   
+			   
 		   }
 		   else if(c.getCode()==1)
 		   {
@@ -913,12 +1071,14 @@ public class GUI extends JFrame {
 			    	curr_pl.setBankrupt(true);
 			    }    
 			    else
-			        JOptionPane.showMessageDialog(null, "THE AMOUNT HAS BEEN PAID SUCCESSFULLY.", "INFO", JOptionPane.INFORMATION_MESSAGE); 
+			        JOptionPane.showMessageDialog(null, "THE AMOUNT HAS BEEN PAID SUCCESSFULLY.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+		       
+		       
 		   }	
 		  updateInfo();
 		  changePlayerTurn();
 		  PlayTheGame();
-		}
+	}
 	}
 	
 	public void playUtilitySquare(UtilitySquare s)
@@ -937,6 +1097,8 @@ public class GUI extends JFrame {
 					s.setP(curr_pl);
 					JOptionPane.showMessageDialog(null, "THE PURCHASE IS COMPLETE.");
 				}
+				else JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
+					
 			}	
 		}
 		else if (s.getP()!= curr_pl)
@@ -949,6 +1111,7 @@ public class GUI extends JFrame {
 		changePlayerTurn();
 		PlayTheGame();	
 	}
+	
 	
 	public void playStationSquare(StationSquare s)
 	{
@@ -966,6 +1129,7 @@ public class GUI extends JFrame {
 					s.setP(curr_pl);
 					JOptionPane.showMessageDialog(null, "THE PURCHASE IS COMPLETE.");
 				}
+				else JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
 			}
 			
 		}
@@ -987,7 +1151,7 @@ public class GUI extends JFrame {
 				JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null , option, option[0]);
 		
 		removePawn();
-		curr_pl.setPosition(5);
+		curr_pl.setPosition(10);
 		curr_pl.setInJail(true);
 		placePawn();
 		
@@ -1011,7 +1175,8 @@ public class GUI extends JFrame {
 					updateInfo();
 					s.setP(curr_pl);
 					JOptionPane.showMessageDialog(null, "THE PURCHASE IS COMPLETE.");   
-                }			
+                }	
+				else JOptionPane.showMessageDialog(null, "THE PURCHASE IS NOT COMPLETE. ");
 			}
 		}
 		else if (s.getP() != curr_pl)
@@ -1054,6 +1219,7 @@ public class GUI extends JFrame {
 			}
 		}
 		
+		
 		Object option[] = {"PAY"};
 	    i = JOptionPane.showOptionDialog(null, "YOU MUST PAY RENT " + rent + "$", "INFO", 
 			JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
@@ -1073,38 +1239,42 @@ public class GUI extends JFrame {
 	   }
 	}
 	
+
+	
+	
 	public void whereToBuild(PlotSquare s)
 	{
 		j = Integer.parseInt(s.getN());
 		if (j<=10)
 		{ 
-			hc.gridx=c[j].gridx+1;
-			hc.gridy=c[j].gridy;
+			hc.gridx=c[j].gridx;
+			hc.gridy=c[j].gridy-1;
 			hc.anchor=GridBagConstraints.SOUTH;
 
 		}
 		else if (j<=20)
 		{
-			hc.gridx=c[j].gridx;
-			hc.gridy=c[j].gridy+1;
+			hc.gridx=c[j].gridx+1;
+			hc.gridy=c[j].gridy;
 			hc.anchor=GridBagConstraints.WEST;
 			
 		}
 		else if (j<=30)
 		{
-			hc.gridx=c[j].gridx-1;
-			hc.gridy=c[j].gridy;
+			hc.gridx=c[j].gridx;
+			hc.gridy=c[j].gridy+1;
 			hc.anchor=GridBagConstraints.NORTH;
 			
 		}
 		else
 		{
 
-			hc.gridx=c[j].gridx;
-			hc.gridy=c[j].gridy-1;	
+			hc.gridx=c[j].gridx-1;
+			hc.gridy=c[j].gridy;	
 			hc.anchor=GridBagConstraints.EAST;
 			
 		}	
+		
 		
 	}
 		
@@ -1126,20 +1296,25 @@ public class GUI extends JFrame {
 		return image_url;
 	}
 	
-	public void buildAHouse(String url)
+	
+	public void buildAHouse(String url, String position)
 	{
 
 		Image image =  new ImageIcon(this.getClass().getResource(url)).getImage();
 		
 		if (image!=null)
 		{
+			
 	        JLabel house_hotel = new JLabel(new ImageIcon(image));
 	        house_hotel.setOpaque(true);
 	        addHouse_Hotel(house_hotel);
+	        
+			
 	    }
 	   else
 			System.out.println("ERROR");
     }
+
   
 	public String whichHoteltoBuild(PlotSquare s)
 	{
@@ -1152,10 +1327,11 @@ public class GUI extends JFrame {
 		else if (j<=30)
 			image_url="/hu.png" ;
 		else
-			image_url="/hr.png" ;
+			image_url="/hl.png" ;
 
 		return image_url;	
 	}
+	
 	
 	public void buildHotel(String url)
 	{
@@ -1170,15 +1346,21 @@ public class GUI extends JFrame {
 			System.out.println("ERROR");
 	}
 	
+	
 	public void addHouse_Hotel(JLabel l)
 	{
 	   	p.add(l,hc);
 		revalidate();
+		
 	}
+	
 	
 	public void checkBuild()
 	{	
-		if (curr_pl.canBuildHouse(1, 2) || curr_pl.canBuildHouse(2, 3) || curr_pl.canBuildHouse(3, 2))
+
+		if (curr_pl.canBuildHouse(1, 2) || curr_pl.canBuildHouse(2, 3) || curr_pl.canBuildHouse(3, 3)
+			|| curr_pl.canBuildHouse(4, 3) || curr_pl.canBuildHouse(5, 3) || curr_pl.canBuildHouse(6, 3) 
+			|| curr_pl.canBuildHouse(7, 3) || curr_pl.canBuildHouse(8, 2))
 		{
 			JOptionPane.showMessageDialog(null, "YOU CAN BUILD A HOUSE." +
 					"\n IF YOU WISH TO BUILD A HOUSE PRESS THE BUTTON.", "INFO", JOptionPane.INFORMATION_MESSAGE);
@@ -1186,72 +1368,89 @@ public class GUI extends JFrame {
 			house.addActionListener(new ActionListener() {
 			     public void actionPerformed(ActionEvent arg0) {
 			    	 
-			    	  String[] options;
+			    	  String[] options = null;
 			    	  ArrayList<String> opt = new ArrayList<>();
 				      ArrayList<Integer> o = new ArrayList<>();
 				      if (curr_pl.canBuildHouse(1, 2))
-				         {opt.add("BLUE");
+				         {opt.add("BROWN");
 				         o.add(12);}
 				      if (curr_pl.canBuildHouse(2, 3))
-					     {opt.add("GREEN");
+					     {opt.add("LIGHT BLUE");
 					     o.add(23);}
-				      if (curr_pl.canBuildHouse(3, 2))
+				      if (curr_pl.canBuildHouse(3, 3))
+					     {opt.add("PINK");
+				         o.add(33);}
+				      if (curr_pl.canBuildHouse(4, 3))
+				         {opt.add("ORANGE");
+				         o.add(43);}
+				      if (curr_pl.canBuildHouse(5, 3))
+					     {opt.add("RED");
+					     o.add(53);}
+				      if (curr_pl.canBuildHouse(6, 3))
 					     {opt.add("YELLOW");
-				         o.add(32);}
+				         o.add(63);}
+				      if (curr_pl.canBuildHouse(7, 3))
+				         {opt.add("GREEN");
+				         o.add(73);}
+				      if (curr_pl.canBuildHouse(8, 2))
+					     {opt.add("DARK BLUE");
+					     o.add(82);}
+				     
 				      
 				      ArrayList<String> t = new ArrayList<>();
-				      if (opt.size()>1)
-				      {
-				    	  options = new String[opt.size()];
-					      options = opt.toArray(options);
-					 
-					      j = JOptionPane.showOptionDialog(null, "CHOOSE GROUP TO BUILT", "INFO", 
-								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 	
-					      t = curr_pl.whereToBuildHouse(o.get(j)/10 , o.get(j)%10);
-				      }
-				      else
-				    	  t = curr_pl.whereToBuildHouse(o.get(0)/10 , o.get(0)%10);
-
-				      options = new String[t.size()];
-				      options = t.toArray(options);
-				    	  
-				      i = JOptionPane.showOptionDialog(null, "CHOOSE PLOT TO BUILT", "INFO", 
-								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
-				 
+				      options = new String[opt.size()];
+					  options = opt.toArray(options);
 				    
-				      PlotSquare p = null;
-				      for (PlotSquare s : curr_pl.getTitles())
+				      j = -1;
+				      j = JOptionPane.showOptionDialog(null, "CHOOSE GROUP TO BUILT", "INFO", 
+									JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
+				      if(j!=-1)
 				      {
-				    	  if (s.getName().equals(options[i]))
-			              {
-				    		  p=s;
-			                  break;
-			              }	  
-				      }
+				    	  t = curr_pl.whereToBuildHouse(o.get(j)/10 , o.get(j)%10);
 				      
-				      i = JOptionPane.showConfirmDialog(null, "Do you want to build a house for " 
-				      +  p.getHouse().getHouse_cost()+ "?" , "INFO" , JOptionPane.YES_NO_OPTION);
-				      if (i==0)
-				      {
-				    	 
-				    	  if (curr_pl.payMoney(p.getHouse().getHouse_cost()))
-				    	  {
-				    		  JOptionPane.showMessageDialog(null, "The house has been built.", "INFO", JOptionPane.INFORMATION_MESSAGE);
-				    		  p.buildHouse();
-				    		  whereToBuild(p);
-						      buildAHouse(whichHousetoBuild(p));   
-						      updateInfo();
-				    	  }
-				    	  else
-				    		  JOptionPane.showMessageDialog(null, "You don't have enough money to built the house.","INFO", JOptionPane.ERROR_MESSAGE); 
+				          options = new String[t.size()];
+				          options = t.toArray(options);
 				    	  
-				      }  
+				          i = -1;
+				          i = JOptionPane.showOptionDialog(null, "CHOOSE PLOT TO BUILT", "INFO", 
+								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
+				          if(i!=-1)
+				          {
+				    
+				        	  PlotSquare p = null;
+				        	  for (PlotSquare s : curr_pl.getTitles())
+				        	  {
+				        		  if (s.getName().equals(options[i]))
+				        		  {
+				        			  p=s;
+				        			  break;
+				        		  }	  
+				        	  }
+				      
+				        	  i = JOptionPane.showConfirmDialog(null, "Do you want to build a house for " 
+				        			  +  p.getHouse().getHouse_cost()+ "?" , "INFO" , JOptionPane.YES_NO_OPTION);
+				        	  if (i==0)
+				        	  {
+				        		  if (curr_pl.payMoney(p.getHouse().getHouse_cost()))
+				        		  {
+				        			  JOptionPane.showMessageDialog(null, "The house has been built.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+				        			  p.buildHouse();
+				        			  whereToBuild(p);
+				        			  buildAHouse(whichHousetoBuild(p),p.getN());   
+				        			  updateInfo();
+				        		  }
+				        		  else
+				        			  JOptionPane.showMessageDialog(null, "You don't have enough money to built the house.","INFO", JOptionPane.ERROR_MESSAGE); 
+				    	  
+				        	  }}}
 			     }});
 			
 		}
 		
 		
-		if (curr_pl.canBuildHotel(1, 2) || curr_pl.canBuildHotel(2, 3) || curr_pl.canBuildHotel(3, 2))
+		if (curr_pl.canBuildHotel(1, 2) || curr_pl.canBuildHotel(2, 3) || curr_pl.canBuildHotel(3, 3)  
+				|| curr_pl.canBuildHotel(4, 3) || curr_pl.canBuildHotel(5, 3)  || curr_pl.canBuildHotel(6, 3)  
+				|| curr_pl.canBuildHotel(7, 3)  || curr_pl.canBuildHotel(8, 2) )
 		{
 			JOptionPane.showMessageDialog(null, "YOU CAN BUILD A HOTEL." +
 					"\n IF YOU WISH TO BUILD A HOTEL PRESS THE BUTTON.", "INFO", JOptionPane.INFORMATION_MESSAGE);
@@ -1263,64 +1462,75 @@ public class GUI extends JFrame {
 			    	  ArrayList<String> opt = new ArrayList<>();
 				      ArrayList<Integer> o = new ArrayList<>();
 				      if (curr_pl.canBuildHotel(1, 2))
-				         {opt.add("BLUE");
+				         {opt.add("BROWN");
 				         o.add(12);}
 				      if (curr_pl.canBuildHotel(2, 3))
-					     {opt.add("GREEN");
+					     {opt.add("LIGHT BLUE");
 					     o.add(23);}
-				      if (curr_pl.canBuildHotel(3, 2))
+				      if (curr_pl.canBuildHotel(3, 3))
+					     {opt.add("PINK");
+				         o.add(33);}
+				      if (curr_pl.canBuildHotel(4, 3))
+				         {opt.add("ORANGE");
+				         o.add(43);}
+				      if (curr_pl.canBuildHotel(5, 3))
+					     {opt.add("RED");
+					     o.add(53);}
+				      if (curr_pl.canBuildHotel(6, 3))
 					     {opt.add("YELLOW");
-				         o.add(32);}
+				         o.add(63);}
+				      if (curr_pl.canBuildHotel(7, 3))
+				         {opt.add("GREEN");
+				         o.add(73);}
+				      if (curr_pl.canBuildHotel(8, 2))
+					     {opt.add("DARK BLUE");
+					     o.add(82);}
 				      
 				      
 				      ArrayList<String> t = new ArrayList<>();
-				      if (opt.size()>1)
-				      {
-				    	  options = new String[opt.size()];
-					      options = opt.toArray(options);
+				      options = new String[opt.size()];
+					  options = opt.toArray(options);
 					 
-					      j = JOptionPane.showOptionDialog(null, "CHOOSE GROUP TO BUILT", "INFO", 
-								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 	
-					      t = curr_pl.whereToBuildHotel(o.get(j)/10 , o.get(j)%10);
-				      }
-				      else
-				    	  t = curr_pl.whereToBuildHotel(o.get(0)/10, o.get(0)%10);
-				     
-
-				      options = new String[t.size()];
-				      options = t.toArray(options);
+					  j = -1;
+					  j = JOptionPane.showOptionDialog(null, "CHOOSE GROUP TO BUILT", "INFO", 
+								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
+					  if(j!=-1)
+					  {
+						  t = curr_pl.whereToBuildHotel(o.get(j)/10 , o.get(j)%10);
+						  options = new String[t.size()];
+						  options = t.toArray(options);
 				    	  
-				      i = JOptionPane.showOptionDialog(null, "CHOOSE PLOT TO BUILT", "INFO", 
+						  i = -1;
+						  i = JOptionPane.showOptionDialog(null, "CHOOSE PLOT TO BUILT", "INFO", 
 								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , options, options[0]); 
 				 
-				    
-				      PlotSquare p = null;
-				      for (PlotSquare s : curr_pl.getTitles())
-				      {
-				    	  if (s.getName().equals(options[i]))
-			              {
-				    		  p=s;
-			                  break;
-			              }	  
-				      }
+				         if (i!=-1)
+				         {
+				        	 PlotSquare p = null;
+				        	 for (PlotSquare s : curr_pl.getTitles())
+				        	 {
+				        		 if (s.getName().equals(options[i]))
+				        		 {
+				        			 p=s;
+				        			 break;
+				        		 }	  
+				        	 }
 				      
-				      i = JOptionPane.showConfirmDialog(null, "Do you want to build a hotel for " 
-				      +  p.getHotel().getHotel_cost()+ "?" , "INFO" , JOptionPane.YES_NO_OPTION);
-				      if (i==0)
-				      {
-				    	 
-				    	  if (curr_pl.payMoney(p.getHotel().getHotel_cost()))
-				    	  {
-				    		  JOptionPane.showMessageDialog(null, "The hotel has been built.", "INFO", JOptionPane.INFORMATION_MESSAGE);
-				    		  p.setHotel_built(true);
-				    		  whereToBuild(p);
-						      buildHotel(whichHoteltoBuild(p));   
-						      updateInfo();
-				    	  }
-				      }
-				    	  else
-				    		  JOptionPane.showMessageDialog(null, "You don't have enough money to built the house.","INFO", JOptionPane.ERROR_MESSAGE); 
-			    	 
+				        	 i = JOptionPane.showConfirmDialog(null, "Do you want to build a hotel for " 
+				        		 +  p.getHotel().getHotel_cost()+ "?" , "INFO" , JOptionPane.YES_NO_OPTION);
+				        	 if (i==0)
+				        	 {
+				        		 if (curr_pl.payMoney(p.getHotel().getHotel_cost()))
+				        		 {
+				        			 JOptionPane.showMessageDialog(null, "The hotel has been built.", "INFO", JOptionPane.INFORMATION_MESSAGE);
+				        			 p.setHotel_built(true);
+				        			 whereToBuild(p);
+				        			 buildHotel(whichHoteltoBuild(p));   
+				        			updateInfo();
+				        		 }
+				        	     else
+				        	    	 JOptionPane.showMessageDialog(null, "You don't have enough money to built the house.","INFO", JOptionPane.ERROR_MESSAGE); 
+				        	 }}}
 			     }});
 		}
 			
@@ -1334,15 +1544,16 @@ public class GUI extends JFrame {
 		checkBuild();
 	}
 	
+	
 	public void dealWithJail()
 	{
-		Object option[] = {"ROLL DICE", "PAY FINE(100$)" , "GET OUT OF JAIL CARD","BUY CARD FROM ANOTHER PLAYER"};
+		Object option[] = {"ROLL DICE", "PAY FINE(100$)" , "GET OUT OF" + "\nJAIL CARD","BUY CARD FROM" + "\nANOTHER PLAYER"};
 		jail_choice = JOptionPane.showOptionDialog(null, "PLAYER : " + curr_pl.getName() + " PICK AN OPTION TO GET OUT OF JAIL \n"   
 				, "INFO", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
 	
 	    if (jail_choice==1)  
-		{
+		 {
 			 if (curr_pl.payMoney(100))
 		     {
 				 updateInfo();
@@ -1355,7 +1566,10 @@ public class GUI extends JFrame {
 			    		 + "YOU DON'T HAVE ENOUGH MONEY. PICK ANOTHER OPTION");
 			     dealWithJail();
 			 }	    	
-		}else if (jail_choice==2)
+		 }
+	     
+	    
+	     else if (jail_choice==2)
 	     {
 	    	 if(curr_pl.isGetOutOfJail())
 	    	 { 
@@ -1444,7 +1658,29 @@ public class GUI extends JFrame {
 		
 	}
 	
-}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+       
+    }
 	
 	
 

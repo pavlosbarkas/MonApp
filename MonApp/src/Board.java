@@ -7,61 +7,61 @@ import javax.swing.*;
 public class Board extends JFrame{
 	
 	private Dice dice = new Dice();
-	
 	private ArrayList<Player> players = new ArrayList<>();
-	
 	private ArrayList<Square> squares = new ArrayList<>();
 	private ArrayList<PlotSquare> plot_squares = new ArrayList<>();
-	
-	private ArrayList<Card> des_cards = new ArrayList<>();
-	private ArrayList<Card> ord_cards = new ArrayList<>();
-	private int n; //number of players
+	private ArrayList<Card> com_cards = new ArrayList<>();
+	private ArrayList<Card> chance_cards = new ArrayList<>();
+	private int n; 
 	private Player curr_pl;
 	
+	
+
 	public void makeTheCards()
 	{
-		Card c1 = new Card('d', "GET OUT OF JAIL CARD",1,0);
-		Card c2 = new Card('d', "EARN 500$",500,1);
-		Card c3 = new Card('d', "MOVE 2 SQUARES AHEAD",2,2);
-		Card c4 = new Card('d', "GO BACK 3 SQUARES",-3,3);
-		Card c5 = new Card('d', "GO TO 'GO'",0,4);
+		Card c1 = new Card(0, "GET OUT OF JAIL CARD",1,0);
+		Card c2 = new Card(0, "EARN 500$",500,1);
+		Card c3 = new Card(0, "MOVE 2 SQUARES AHEAD",2,2);
+		Card c4 = new Card(0, "GO BACK 3 SQUARES",-3,3);
+		Card c5 = new Card(0, "GO TO 'GO'",0,4);
 		
-		Card c6 = new Card('o', "GIVE TO EVERY PLAYER 50$",50,0);
-		Card c7 = new Card('o', "GO TO JAIL",0,1);
-		Card c8 = new Card('o', "PAY 125$",125,2);
-		Card c9 = new Card('o', "DOCTOR'S EXPENSES. PAY 100$",100,3);
-		Card c10 = new Card('o', "CONTRIBUTE TO CHARITY. PAY 12$",12,4);
+		Card c6 = new Card(1, "GIVE TO EVERY PLAYER 50$",50,0);
+		Card c7 = new Card(1, "GO TO JAIL!",0,1);
+		Card c8 = new Card(1, "PAY 125$",125,2);
+		Card c9 = new Card(1, "DOCTOR'S EXPENSES. PAY 100$",100,3);
+		Card c10 = new Card(1,"CONTRIBUTE TO CHARITY. PAY 12$",12,4);
 	
-		des_cards.add(c1);
-		des_cards.add(c2);
-		des_cards.add(c3);
-		des_cards.add(c4);
-		des_cards.add(c5);
+		com_cards.add(c1);
+		com_cards.add(c2);
+		com_cards.add(c3);
+		com_cards.add(c4);
+		com_cards.add(c5);
 		
-		ord_cards.add(c6);
-		ord_cards.add(c7);
-		ord_cards.add(c8);
-		ord_cards.add(c9);
-		ord_cards.add(c10);
+		chance_cards.add(c6);
+		chance_cards.add(c7);
+		chance_cards.add(c8);
+		chance_cards.add(c9);
+		chance_cards.add(c10);
 		
 	}
 	
-	 public Card generateCard(Player p,char t)
+	 public Card generateCard(Player p,int t)
 	 {  
 		 Card return_card = new Card();
 		 
-		 if (t=='d')
+		 if (t == 0 )
 		 {
-			 return_card = des_cards.get(0);
-			 des_cards.remove(0);
-			 des_cards.add(return_card);
+			 return_card = com_cards.get(0);
+			 com_cards.remove(0);
+			 com_cards.add(return_card);
 		 }
 		 else
 		 {
-			 return_card = ord_cards.get(0);
-			 ord_cards.remove(0);
-			 ord_cards.add(return_card); 
+			 return_card = chance_cards.get(0);
+			 chance_cards.remove(0);
+			 chance_cards.add(return_card); 
 		 }
+		 
 		 return return_card;
 	        
 	   }
@@ -74,29 +74,28 @@ public class Board extends JFrame{
 		JLabel l4 = new JLabel();
 		
 		//start
-		Image image1 = new ImageIcon(this.getClass().getResource("/square0.jpg")).getImage();
-		l1.setIcon(new ImageIcon(image1));
+	    Image image1 = new ImageIcon(this.getClass().getResource("/square0.jpg")).getImage();
+	    l1.setIcon(new ImageIcon(image1));
 		Square s1 = new Square("0" ,"Start",l1);
 		squares.add(s1);
-		
+				
 		//jail
 		Image image2 = new ImageIcon(this.getClass().getResource("/square10.jpg")).getImage();
 		l2.setIcon(new ImageIcon(image2));
 		Square s2 = new Square("10","Jail",l2);
 		squares.add(s2);
-		
+				
 		//free parking
 		Image image3 = new ImageIcon(this.getClass().getResource("/square20.jpg")).getImage();
 		l3.setIcon(new ImageIcon(image3));
 		Square s3 = new Square("20","Free parking",l3);
 		squares.add(s3);
-		
+				
 		//go to jail
 		Image image4 = new ImageIcon(this.getClass().getResource("/square30.jpg")).getImage();
 		l4.setIcon(new ImageIcon(image4));
 		Square s4 = new Square("30","Go to Jail",l4);
 		squares.add(s4);
-
 		 
 	 }
 	 
@@ -141,6 +140,7 @@ public class Board extends JFrame{
 		l6.setIcon(new ImageIcon(image6));
 		CardSquare s6 = new CardSquare("36","Chance",l6);
 		squares.add(s6);
+			
 		 
 	 }
 	 
@@ -154,13 +154,12 @@ public class Board extends JFrame{
 		l1.setIcon(new ImageIcon(image1));
 		TaxSquare s1 = new TaxSquare("38","Luxury Tax",l1, 100);
 		squares.add(s1);
-		
+				
 		//income tax
 		Image image2 = new ImageIcon(this.getClass().getResource("/square4.jpg")).getImage();
 		l2.setIcon(new ImageIcon(image2));
 		TaxSquare s2 = new TaxSquare("4","Income Tax",l2,200);
 		squares.add(s2);
-		
 				
 	 }
 	 
@@ -170,33 +169,32 @@ public class Board extends JFrame{
 		JLabel l2 = new JLabel();
 		JLabel l3 = new JLabel();
 		JLabel l4 = new JLabel();
-			
+		
 		//first station
 		Image image1 = new ImageIcon(this.getClass().getResource("/square5.jpg")).getImage();
 		l1.setIcon(new ImageIcon(image1));
 		StationSquare s1 = new StationSquare("5",l1, "Reading Railroad");
 		squares.add(s1);
+				
 		
-			
 		//second station
 		Image image2 = new ImageIcon(this.getClass().getResource("/square15.jpg")).getImage();
 		l2.setIcon(new ImageIcon(image2));
 		StationSquare s2 = new StationSquare("15",l2,"Pennsylvania Railroad");
 		squares.add(s2);
-		
-			
+				
+					
 		//third station
 		Image image3 = new ImageIcon(this.getClass().getResource("/square25.jpg")).getImage();
 		l3.setIcon(new ImageIcon(image3));
 		StationSquare s3 = new StationSquare("25",l3,"B. & O. Railroad");
 		squares.add(s3);
-		
+				
 		//fourth station
 		Image image4 = new ImageIcon(this.getClass().getResource("/square35.jpg")).getImage();
 		l4.setIcon(new ImageIcon(image4));
 		StationSquare s4 = new StationSquare("35",l4,"Short Line");
 		squares.add(s4);
-		
 		 
 	 }
 	 
@@ -206,12 +204,12 @@ public class Board extends JFrame{
 		 JLabel l2 = new JLabel();
 		 
 		//water works
-		Image image1 = new ImageIcon(this.getClass().getResource("/square28.jpg")).getImage();
-		l1.setIcon(new ImageIcon(image1));
-		UtilitySquare s1 = new UtilitySquare("28",l1,"Water Works");
+	    Image image1 = new ImageIcon(this.getClass().getResource("/square28.jpg")).getImage();
+	    l1.setIcon(new ImageIcon(image1));
+	    UtilitySquare s1 = new UtilitySquare("28",l1,"Water Works");
 		squares.add(s1);
-		
 			
+				
 		//electric company
 		Image image2 = new ImageIcon(this.getClass().getResource("/square12.jpg")).getImage();
 		l2.setIcon(new ImageIcon(image2));
@@ -263,33 +261,33 @@ public class Board extends JFrame{
 		//first square
 		Image image1 = new ImageIcon(this.getClass().getResource("/im1g2.jpg")).getImage();
 		l1.setIcon(new ImageIcon(image1));
-			
+				
 		House house1 = new House(30,90,270,400,50);
 		Hotel hotel1 = new Hotel(550,50);
-			
+				
 		PlotSquare s1 = new PlotSquare("6",l1, "Oriental Avenue",100,12,house1,hotel1,2,3);
 		squares.add(s1);
 		plot_squares.add(s1);
-			
+				
 		//second square
 		Image image2 = new ImageIcon(this.getClass().getResource("/im2g2.jpg")).getImage();
 		l2.setIcon(new ImageIcon(image2));
-		
+			
 		House house2 = new House(30,90,270,400,50);
 		Hotel hotel2 = new Hotel(550,50);
-			
+				
 		PlotSquare s2 = new PlotSquare("8",l2,"Vermont Avenue",100,12,house2,hotel2,2,3);
 		squares.add(s2);
 		plot_squares.add(s2);
-		
-		
+			
+			
 		//third square
 		Image image3 = new ImageIcon(this.getClass().getResource("/im3g2.jpg")).getImage();
 		l3.setIcon(new ImageIcon(image3));
-				
+					
 		House house3 = new House(40,100,300,450,50);
 		Hotel hotel3 = new Hotel(600,50);
-					
+						
 		PlotSquare s3 = new PlotSquare("9",l3,"Connecticut Avenue",120,16,house3,hotel3,2,3);
 		squares.add(s3);
 		plot_squares.add(s3);
@@ -557,21 +555,23 @@ public class Board extends JFrame{
 			 if (p.getName().equals(curr_pl.getName()))
 			 {
 				 i = players.indexOf(p);
-				 if (i==players.size()-1)
+				 if (i == players.size()-1)
 					 i=0;
 				 else
 					 i++;
 				 
 				 do{
-					 if (players.get(i).isBankrupt()==false)
+					 if (!players.get(i).isBankrupt())
 					 { 
 						 curr_pl = players.get(i);
 					     flag=false;
 					 }
+					 
 					 if (i==players.size()-1)
 						 i=0;
 					 else
 						 i++;
+					 
 				 }while (flag==true);
 				 break;
 			 }

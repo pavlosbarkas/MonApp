@@ -2,12 +2,13 @@ import javax.swing.JOptionPane;
 
 public class Card {
 	
-	private char type;//d:decision or o:order  && decision=community chest  && order=chance
+	private int type; //community chest = 0   && chance = 1
 	private String str;
 	private int number;
 	private int code;
 	
-	public Card(char type,String str,int number,int code)
+	
+	public Card(int type,String str,int number,int code)
 	{
 		this.type=type;
 		this.str=str;
@@ -24,26 +25,33 @@ public class Card {
 	public boolean executeTheCard(Player p,Board b)
 	{
 	
-		if (type=='d')
+		if (type == 0)
 		{
 			if(code==0)
 				p.setGetOutOfJail(true);
 			else if(code==1)
 				p.earnMoney(number);
 			else if(code==2 || code==3)
-			     p.changePosition(number);	
+			    p.changePosition(number);	
 			else
 			{	
 				p.setPosition(0);
-			    p.earnMoney(400); // double
+			    p.earnMoney(200); 
 			}
 		}
 		else
 		{ 
 			if (code==0)
 			{
-				int m = p.getMoney();  //player's money
-				int n = 50 * (b.getPlayers().size() - 1);  //payment
+				int m = p.getMoney();  
+				int n = 0 ;
+				
+				for (Player x : b.getPlayers())
+				{
+					if (!x.isBankrupt())
+						n++;
+				}
+				n*=50;
 				
 				if (!p.isLoan())
 					m = m + 1000;
@@ -54,8 +62,8 @@ public class Card {
 				   {
 					   if (!p.getName().equals(x.getName()))
 					   {
-						   if(p.payMoney(number))
-						        x.earnMoney(number);	   
+						   p.payMoney(number);
+						   x.earnMoney(number);	   
 					   }	
 				   }
 				   return true;
@@ -71,7 +79,6 @@ public class Card {
 								+ "\n(INCLUDING LOAN).",
 		                       "UPDATE", JOptionPane.ERROR_MESSAGE);
 				return false;
-		
 			}
 			else if (code==1)
 			{   
@@ -79,19 +86,19 @@ public class Card {
 			    p.setInJail(true);
 			}
 			else
-			{
 				return p.payMoney(number);	
-			}
+
 		}
 		return true;
 		
 	}
 
+	//getters
 	public int getCode() {
 		return code;
 	}
 	
-	public char getType() {
+	public int getType() {
 		return type;
 	}
 
