@@ -35,6 +35,5 @@ public class House {
 	public int getHouse_cost() {
 		return house_cost;
 	}
-
 	
 }

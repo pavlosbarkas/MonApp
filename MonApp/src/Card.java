@@ -7,8 +7,6 @@ public class Card {
 	private int number;
 	private int code;
 	
-
-	
 	public Card(char type,String str,int number,int code)
 	{
 		this.type=type;
@@ -41,7 +39,7 @@ public class Card {
 			}
 		}
 		else
-		{ /// ftiaksto
+		{ 
 			if (code==0)
 			{
 				int m = p.getMoney();  //player's money
@@ -77,7 +75,7 @@ public class Card {
 			}
 			else if (code==1)
 			{   
-			    p.setPosition(5);
+			    p.setPosition(10);
 			    p.setInJail(true);
 			}
 			else

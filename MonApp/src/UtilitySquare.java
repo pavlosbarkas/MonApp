@@ -7,6 +7,5 @@ public class UtilitySquare extends Square{
 		super(n, label,name,150);
 		
 	}
-
 	
 }

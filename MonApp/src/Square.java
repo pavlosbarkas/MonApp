@@ -17,7 +17,6 @@ public class Square {
 		this.name=name;
 		this.label=label;	
 	}
-
 	
 	public Square(String n,JLabel label, String name,int price,int rent) //plot + station
 	{
@@ -44,52 +43,37 @@ public class Square {
 		p=x;	
 	}
 	
-	
-	
-	
-	
-	
 	//getters and setters
 	public String getN() {
 		return n;
 	}
 
-
-
 	public JLabel getLabel() {
 		return label;
 	}
-
 
 	public String getName() {
 		return name;
 	}
 
-
 	public int getPrice() {
 		return price;
 	}
-
 
 	public int getRent() {
 		return rent;
 	}
 
-
 	public Player getP() {
 		return p;
 	}
-
 
 	public void setP(Player p) {
 		this.p = p;
 	}
 
-
 	public void setRent(int rent) {
 		this.rent = rent;
 	}
-
-    
 
 }

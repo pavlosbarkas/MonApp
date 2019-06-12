@@ -16,8 +16,6 @@ public class Hotel {
 
 	public int getHotel_cost() {
 		return hotel_cost;
-	}
-	
-	
+	}	
 	
 }

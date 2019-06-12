@@ -10,8 +10,8 @@ public class GUI extends JFrame {
 	private JPanel p;
 	private Board board = new Board();
 	
-	private JButton b[] = new JButton[20];
-	private GridBagConstraints c[] = new GridBagConstraints[20];
+	private JButton b[] = new JButton[40];
+	private GridBagConstraints c[] = new GridBagConstraints[40];
 	
 	private JButton decision;
 	private GridBagConstraints dc = new GridBagConstraints();
@@ -39,7 +39,6 @@ public class GUI extends JFrame {
 	
 	private int i,j;
 	
-	
 	JLabel choice1  = new JLabel();
 	JLabel choice2  = new JLabel();
 	JLabel choice3  = new JLabel();
@@ -49,7 +48,6 @@ public class GUI extends JFrame {
 	private int shoe_taken = 0;
 	private int car_taken = 0;
 	private int ship_taken = 0;
-	
 	
 	GridBagConstraints hc = new GridBagConstraints();
 	
@@ -65,15 +63,12 @@ public class GUI extends JFrame {
 	
 	int jail_choice = -1;
 	
-	
 	public GUI(Board board)
 	{
-		
 		
 		this.board=board;
 		
 		Frame();
-		
 		
 	}
 	
@@ -136,7 +131,6 @@ public class GUI extends JFrame {
 		return false;
 		
 	}
-	
 	
 	public boolean getPlayerName()
 	{
@@ -202,7 +196,6 @@ public class GUI extends JFrame {
 		Image ship = new ImageIcon(this.getClass().getResource("/ship.png")).getImage();
 		Image ship_b = new ImageIcon(this.getClass().getResource("/ship_big.png")).getImage();
 		
-		
 		JButton l1 = new JButton(new ImageIcon(ship_b));
 		JButton l2 = new JButton(new ImageIcon(car_b));
 	    JButton l3 = new JButton(new ImageIcon(shoe_b));
@@ -212,7 +205,6 @@ public class GUI extends JFrame {
 			
 	    JPanel p1 = new JPanel();
 	    JPanel p2 = new JPanel();
-	    
 	    
 	    p1.setBackground(Color.white);
 	    p2.setBackground(Color.white);
@@ -226,7 +218,6 @@ public class GUI extends JFrame {
 		l2.setBackground(new Color(232,232,232));
 		l3.setBackground(new Color(232,232,232));
 		l4.setBackground(new Color(232,232,232));
-			
 		
 		p.add(p1);
 		p.add(p2);
@@ -254,8 +245,6 @@ public class GUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
 					}});
 			
-			
-			
 			l2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(car_taken==0)
@@ -267,8 +256,6 @@ public class GUI extends JFrame {
 					else
 						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
 					}});
-			
-			
 			
 			l3.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -282,8 +269,6 @@ public class GUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
 					}});
 			
-			
-			
 			l4.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(hat_taken==0)
@@ -295,8 +280,6 @@ public class GUI extends JFrame {
 					else
 						JOptionPane.showMessageDialog(null, "ALREADY CHOSEN.");
 					}});
-				
-		
 	}
 	
 	public void choosePawn(JLabel label)
@@ -323,13 +306,11 @@ public class GUI extends JFrame {
 		}
 	}
 	
-	
 	public void getThePlayers()
 	{
 		if (getNumberofPlayers() && getPlayerName())
 			getPlayerIcon(); 	
 	}	
-	
 	
 	public void layoutOfButtons() 
 	{
@@ -345,7 +326,6 @@ public class GUI extends JFrame {
 		}	
 	}
 	
-	
 	public void BuildBoard()
 	{
 		p=new JPanel();
@@ -354,21 +334,34 @@ public class GUI extends JFrame {
 		
 		layoutOfButtons();
 	
-		for(i=0;i<=19;i++)
+		for(i=0;i<=39;i++)
 		{
 			b[i] = new JButton();
 			b[i].setLayout(new GridLayout(rows,cols));
-			b[i].setText("" + i );
+			b[i].setText("" + i);
 			b[i].setPreferredSize(new Dimension(60,60));
 			c[i] = new GridBagConstraints();	
 		}
 		
-		
 		//creating the board
-		j=0;
-		for(i=5;i>=0;i--)
+		j=10;
+		for(i=0;i<=10;i++)
 		{  c[i].fill=GridBagConstraints.BOTH;
            c[i].weightx= 0.5;
+           c[i].weighty= 0.5;
+   		   c[i].gridx=j;
+   		   c[i].gridy=10;
+   		   c[i].ipady=50;
+   		   c[i].ipadx=90;
+   		   p.add(b[i],c[i]);
+   		   j--;
+		}
+		
+		j=0;
+		for(i=20;i>=11;i--)
+		{  
+		   c[i].fill= GridBagConstraints.BOTH;
+		   c[i].weightx= 0.5;
            c[i].weighty= 0.5;
    		   c[i].gridx=0;
    		   c[i].gridy=j;
@@ -379,63 +372,47 @@ public class GUI extends JFrame {
 		}
 		
 		j=1;
-		for(i=6;i<=10;i++)
-		{  
-		   c[i].fill= GridBagConstraints.BOTH;
+		for(i=21;i<=30;i++)
+		{  c[i].fill=GridBagConstraints.BOTH;
 		   c[i].weightx= 0.5;
            c[i].weighty= 0.5;
    		   c[i].gridx=j;
    		   c[i].gridy=0;
-   		   c[i].ipady=50;
-   		   c[i].ipadx=90;
-   		   p.add(b[i],c[i]);
-   		   j++;
-		}
-		
-		j=1;
-		for(i=11;i<=15;i++)
-		{  c[i].fill=GridBagConstraints.BOTH;
-		   c[i].weightx= 0.5;
-           c[i].weighty= 0.5;
-   		   c[i].gridx=5;
-   		   c[i].gridy=j;
    		   c[i].ipady=50;
  		   c[i].ipadx=90;
    		   p.add(b[i],c[i]);
    		   j++;
 		}
 		
-		j=4;
-		for(i=16;i<=19;i++)
+		j=1;
+		for(i=31;i<=39;i++)
 		{  c[i].fill=GridBagConstraints.BOTH;
 		   c[i].weightx= 0.5;
            c[i].weighty= 0.5;
-   		   c[i].gridx=j;
-   		   c[i].gridy=5;
+   		   c[i].gridx=10;
+   		   c[i].gridy=j;
    		   c[i].ipady=50;
 		   c[i].ipadx=90;
    		   p.add(b[i],c[i]);
-   		   j--;
+   		   j++;
 		}
 		
-	
 		//adding buttons
-		decision = new JButton("Decision");
+		decision = new JButton("Community Chest");
 		decision.setFont(new Font("Serif",Font.BOLD + Font.ITALIC,28));
 		decision.setBackground(new Color(253,157,48));
-		dc.gridx=1;
-	    dc.gridy=1;
+		dc.gridx=2;
+	    dc.gridy=2;
 	    dc.ipadx=20;
 	    dc.ipady=40;
 	    decision.setEnabled(false);
 	    p.add(decision,dc);
 	    
-	    
-	    order = new JButton("Order");
+	    order = new JButton("Chance");
 	    order.setFont(new Font("Serif",Font.BOLD + Font.ITALIC,28));
 	    order.setBackground(new Color(60,203,246));
-		oc.gridx=4;
-	    oc.gridy=4;
+		oc.gridx=8;
+	    oc.gridy=8;
 	    oc.ipadx=45;
 	    oc.ipady=35;
 	    order.setEnabled(false);
@@ -444,8 +421,8 @@ public class GUI extends JFrame {
 	    info = new JTextArea("PLAYER'S INFO  \n" + "Name : \n" + "Money : \n" + "Titles : \n" + "Stations : \n" + "Utilities : \n" , 10,4);
 	    info.setEditable(false);
 	    ic.fill = GridBagConstraints.BOTH;
-		ic.gridx=2;
-	    ic.gridy=2;
+		ic.gridx=5;
+	    ic.gridy=4;
 	    ic.gridheight=2;
 	    ic.gridwidth=2;
 	    p.add(info,ic);
@@ -457,10 +434,9 @@ public class GUI extends JFrame {
 	    dice_1.setFont(new Font("Arial",Font.BOLD,12));
 	    d1c.ipadx=10;
 	    d1c.ipady=50;
-		d1c.gridx=2;
-	    d1c.gridy=1;
+		d1c.gridx=5;
+	    d1c.gridy=2;
 	    p.add(dice_1,d1c);
-	    
 	    
 	    dice_2= new JButton("Dice 2");
 	    dice_2.addActionListener(listener);
@@ -469,76 +445,43 @@ public class GUI extends JFrame {
 	    dice_2.setFont(new Font("Arial",Font.BOLD,12));
 	    d2c.ipadx=10;
 	    d2c.ipady=50;
-		d2c.gridx=3;
-	    d2c.gridy=1;
+		d2c.gridx=6;
+	    d2c.gridy=2;
 	    p.add(dice_2,d2c);
-	    
 	    
 	    house = new JButton("Build \n" + "house");
 	    house.setFont(new Font("Arial",Font.BOLD,14));
 	    house.setBackground(new Color(250,67,67));
 	    house.setEnabled(false);
-		housec.gridx=1;
-	    housec.gridy=3;
+		housec.gridx=2;
+	    housec.gridy=5;
 	    housec.ipadx=30;
 	    housec.ipady=20;
 	    housec.anchor= GridBagConstraints.NORTH;
 	    p.add(house,housec);
 	    
-	    
 	    hotel = new JButton("Build \n" + "hotel");
 	    hotel.setFont(new Font("Arial",Font.BOLD,14));
 	    hotel.setBackground(new Color(250,255,67));
 	    hotel.setEnabled(false);
-	    hotelc.gridx=1;
-	    hotelc.gridy=3;
+	    hotelc.gridx=2;
+	    hotelc.gridy=6;
 	    hotelc.ipadx=40;
 	    hotelc.ipady=20;
 	    hotelc.anchor=GridBagConstraints.SOUTH;
 	    p.add(hotel,hotelc);
-	    
 	  
 		this.setVisible(true);
-		this.setSize(1800,750);
+		this.setSize(1500,900);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
 		
 		makeSquares();
 		createPawns();
 		curr_pl = board.getCurr_pl();
 		
-		
-		
-		/*curr_pl.getTitles().add(board.getPlot_squares().get(0));
-		curr_pl.getTitles().add(board.getPlot_squares().get(1));
-		curr_pl.getTitles().add(board.getPlot_squares().get(2));
-	    curr_pl.getTitles().add(board.getPlot_squares().get(3));
-		curr_pl.getTitles().add(board.getPlot_squares().get(4));
-		
-		
-		board.getPlot_squares().get(0).buildHouse();
-		board.getPlot_squares().get(0).buildHouse();
-		board.getPlot_squares().get(0).buildHouse();
-		board.getPlot_squares().get(0).setP(curr_pl);
-		board.getPlot_squares().get(0).buildHouse();
-		
-		board.getPlot_squares().get(1).buildHouse();
-		board.getPlot_squares().get(1).buildHouse();
-		board.getPlot_squares().get(1).buildHouse();
-		board.getPlot_squares().get(1).buildHouse();
-		board.getPlot_squares().get(1).setP(curr_pl);
-		//board.getPlot_squares().get(1).buildHouse();
-		
-		Build();*/
-		
-		
-		
-		
 		PlayTheGame();
-		
-		
 	}
 
 	public void makeSquares()
@@ -548,7 +491,7 @@ public class GUI extends JFrame {
 	
 	  for(Square s : board.getSquares())
 	  {
-		  for (i=0;i<20;i++)
+		  for (i=0;i<40;i++)
 		      if (b[i].getText().equals(s.getN()))
 			      b[i].setIcon(s.getLabel().getIcon());
 	  }	
@@ -560,8 +503,7 @@ public class GUI extends JFrame {
 		    b[0].add(x.getLabel());
 	}
 	
-	
-  class rollDiceButtonListener implements ActionListener{
+	class rollDiceButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource().equals(dice_1))
@@ -604,7 +546,6 @@ public class GUI extends JFrame {
 		    else 
 		    	url2 = "/6.png" ;
 			
-			
 			Image im2 = new ImageIcon(this.getClass().getResource(url2)).getImage();
             dice_2.setIcon(new ImageIcon(im2));
 	        dice_2.setFont(new Font("Arial",Font.PLAIN,0));
@@ -645,7 +586,6 @@ public class GUI extends JFrame {
 		b[curr_pl.getPosition()].remove(curr_pl.getLabel());
 		b[curr_pl.getPosition()].updateUI();
 	}
-	
 	
 	public void placePawn()
 	{
@@ -721,7 +661,6 @@ public class GUI extends JFrame {
 		 Square s = findTheSquare(curr_pl);	
 	     playSquare(s);	
 	}
-	
 	
 	public void calculateMove()
 	{	
@@ -804,7 +743,7 @@ public class GUI extends JFrame {
 			     		+ "YOU ARE GOING TO JAIL.");
 			     
 			        removePawn();
-			        curr_pl.setPosition(5);
+			        curr_pl.setPosition(10);
 			        curr_pl.setInJail(true);
 			        placePawn();
 			     
@@ -820,8 +759,6 @@ public class GUI extends JFrame {
 			 curr_pl = board.changeTurn();
 			 Build();
 		 }
-		
-		 
 	}
 	
 	public void playSquare(Square s)
@@ -837,7 +774,7 @@ public class GUI extends JFrame {
 	    	  playStationSquare((StationSquare) s);
 	     else if (s instanceof PlotSquare)
 		    	playPlotSquare((PlotSquare) s);
-	     else if (s.getN().equals("15"))
+	     else if (s.getN().equals("30"))
 	    	  playGoToJail();	 
 	     else
 	     {
@@ -846,7 +783,6 @@ public class GUI extends JFrame {
 	     }
 		 
 	}
-	
 	
 	public void playTaxSquare(TaxSquare s)
 	{
@@ -869,7 +805,6 @@ public class GUI extends JFrame {
 	   PlayTheGame();	
 	}
 	
-	
 	public void playCardSquare(CardSquare s)
 	{
 		dice_1.setEnabled(false);
@@ -890,7 +825,6 @@ public class GUI extends JFrame {
 		}
 		
 	}
-	
 
 	class OrderOrDecisionButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -907,7 +841,6 @@ public class GUI extends JFrame {
 		    }
 		}
 	}
-	
 	
 	public void pickADecisionCard()
 	{	
@@ -938,7 +871,6 @@ public class GUI extends JFrame {
 		 }
 	}
 	
-	
 	public void pickAnOrderCard()
 	{
 		Card c = new Card();
@@ -958,10 +890,7 @@ public class GUI extends JFrame {
 			   }
 			   else
 				   JOptionPane.showMessageDialog(null, "ALL THE PLAYERS HAVE BEEN"
-				   		+ " PAID SUCCESSFULLY.", "INFO",JOptionPane.INFORMATION_MESSAGE);
-			   
-			   
-			   
+				   		+ " PAID SUCCESSFULLY.", "INFO",JOptionPane.INFORMATION_MESSAGE); 
 		   }
 		   else if(c.getCode()==1)
 		   {
@@ -978,14 +907,12 @@ public class GUI extends JFrame {
 			    	curr_pl.setBankrupt(true);
 			    }    
 			    else
-			        JOptionPane.showMessageDialog(null, "THE AMOUNT HAS BEEN PAID SUCCESSFULLY.", "INFO", JOptionPane.INFORMATION_MESSAGE);
-		       
-		       
+			        JOptionPane.showMessageDialog(null, "THE AMOUNT HAS BEEN PAID SUCCESSFULLY.", "INFO", JOptionPane.INFORMATION_MESSAGE); 
 		   }	
 		  updateInfo();
 		  changePlayerTurn();
 		  PlayTheGame();
-	}
+		}
 	}
 	
 	public void playUtilitySquare(UtilitySquare s)
@@ -1016,7 +943,6 @@ public class GUI extends JFrame {
 		changePlayerTurn();
 		PlayTheGame();	
 	}
-	
 	
 	public void playStationSquare(StationSquare s)
 	{
@@ -1122,7 +1048,6 @@ public class GUI extends JFrame {
 			}
 		}
 		
-		
 		Object option[] = {"PAY"};
 	    i = JOptionPane.showOptionDialog(null, "YOU MUST PAY RENT " + rent + "$", "INFO", 
 			JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
@@ -1142,31 +1067,28 @@ public class GUI extends JFrame {
 	   }
 	}
 	
-
-	
-	
 	public void whereToBuild(PlotSquare s)
 	{
 		j = Integer.parseInt(s.getN());
-		if (j<=5)
+		if (j<=10)
 		{ 
 			hc.gridx=c[j].gridx+1;
 			hc.gridy=c[j].gridy;
-			hc.anchor=GridBagConstraints.WEST;
+			hc.anchor=GridBagConstraints.SOUTH;
 
 		}
-		else if (j<=10)
+		else if (j<=20)
 		{
 			hc.gridx=c[j].gridx;
 			hc.gridy=c[j].gridy+1;
-			hc.anchor=GridBagConstraints.NORTH;
+			hc.anchor=GridBagConstraints.WEST;
 			
 		}
-		else if (j<=15)
+		else if (j<=30)
 		{
 			hc.gridx=c[j].gridx-1;
 			hc.gridy=c[j].gridy;
-			hc.anchor=GridBagConstraints.EAST;
+			hc.anchor=GridBagConstraints.NORTH;
 			
 		}
 		else
@@ -1174,10 +1096,9 @@ public class GUI extends JFrame {
 
 			hc.gridx=c[j].gridx;
 			hc.gridy=c[j].gridy-1;	
-			hc.anchor=GridBagConstraints.SOUTH;
+			hc.anchor=GridBagConstraints.EAST;
 			
 		}	
-		
 		
 	}
 		
@@ -1187,18 +1108,17 @@ public class GUI extends JFrame {
 		j = Integer.parseInt(s.getN());
 		String image_url;
 		
-		if (j<=5)
-			image_url="/h" + i + "l.png" ;
-		else if (j<=10)
-			image_url="/h" + i + "u.png" ;
-		else if (j<=15)
-			image_url="/h" + i + "r.png" ;
-		else
+		if (j<=10)
 			image_url="/h" + i + "d.png" ;
+		else if (j<=20)
+			image_url="/h" + i + "l.png" ;
+		else if (j<=30)
+			image_url="/h" + i + "u.png" ;
+		else
+			image_url="/h" + i + "r.png" ;
 
 		return image_url;
 	}
-	
 	
 	public void buildAHouse(String url)
 	{
@@ -1214,24 +1134,22 @@ public class GUI extends JFrame {
 	   else
 			System.out.println("ERROR");
     }
-
   
 	public String whichHoteltoBuild(PlotSquare s)
 	{
 		j = Integer.parseInt(s.getN());
 		String image_url;
-		if (j<=5)
-			image_url="/hl.png" ;
-		else if (j<=10)
-			image_url="/hu.png" ;
-		else if (j<=15)
-			image_url="/hr.png" ;
-		else
+		if (j<=10)
 			image_url="/hd.png" ;
+		else if (j<=20)
+			image_url="/hl.png" ;
+		else if (j<=30)
+			image_url="/hu.png" ;
+		else
+			image_url="/hr.png" ;
 
 		return image_url;	
 	}
-	
 	
 	public void buildHotel(String url)
 	{
@@ -1246,17 +1164,14 @@ public class GUI extends JFrame {
 			System.out.println("ERROR");
 	}
 	
-	
 	public void addHouse_Hotel(JLabel l)
 	{
 	   	p.add(l,hc);
 		revalidate();
 	}
 	
-	
 	public void checkBuild()
 	{	
-
 		if (curr_pl.canBuildHouse(1, 2) || curr_pl.canBuildHouse(2, 3) || curr_pl.canBuildHouse(3, 2))
 		{
 			JOptionPane.showMessageDialog(null, "YOU CAN BUILD A HOUSE." +
@@ -1278,7 +1193,6 @@ public class GUI extends JFrame {
 					     {opt.add("YELLOW");
 				         o.add(32);}
 				      
-				      
 				      ArrayList<String> t = new ArrayList<>();
 				      if (opt.size()>1)
 				      {
@@ -1291,7 +1205,6 @@ public class GUI extends JFrame {
 				      }
 				      else
 				    	  t = curr_pl.whereToBuildHouse(o.get(0)/10 , o.get(0)%10);
-				     
 
 				      options = new String[t.size()];
 				      options = t.toArray(options);
@@ -1415,7 +1328,6 @@ public class GUI extends JFrame {
 		checkBuild();
 	}
 	
-	
 	public void dealWithJail()
 	{
 		Object option[] = {"ROLL DICE", "PAY FINE(100$)" , "GET OUT OF JAIL CARD","BUY CARD FROM ANOTHER PLAYER"};
@@ -1424,7 +1336,7 @@ public class GUI extends JFrame {
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null , option, option[0]);
 	
 	    if (jail_choice==1)  
-		 {
+		{
 			 if (curr_pl.payMoney(100))
 		     {
 				 updateInfo();
@@ -1437,10 +1349,7 @@ public class GUI extends JFrame {
 			    		 + "YOU DON'T HAVE ENOUGH MONEY. PICK ANOTHER OPTION");
 			     dealWithJail();
 			 }	    	
-		 }
-	     
-	    
-	     else if (jail_choice==2)
+		}else if (jail_choice==2)
 	     {
 	    	 if(curr_pl.isGetOutOfJail())
 	    	 { 
@@ -1529,29 +1438,7 @@ public class GUI extends JFrame {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-       
-    }
+}
 	
 	
 

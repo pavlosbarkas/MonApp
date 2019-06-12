@@ -19,14 +19,12 @@ public class Player {
 	private boolean loan;
 	private boolean bankrupt;
 	private JLabel label = new JLabel();
-
-	
 	
 	public Player(int code,String name)
 	{   
 		this.code=code;
 		this.name=name;
-		money=500;
+		money=2000;
 		position=0;
 		
 		getOutOfJail=false;
@@ -35,14 +33,12 @@ public class Player {
 		InJail = false;
 		jail_counter = 0;
 		label.setText(" ");
-		
-		
 	}
+	
 	public void earnMoney(int amount)
 	{
 		money+=amount;
 	}
-	
 
 	public boolean payMoney(int amount)
 	{
@@ -57,7 +53,7 @@ public class Player {
 			{
 			   JOptionPane.showMessageDialog(null, "YOU HAVE " +  money + "$. THEY ARE NOT ENOUGH. YOU MUST TAKE A LOAN.");
 			   loan=true;
-			   earnMoney(100);  
+			   earnMoney(1000);  
 			   JOptionPane.showMessageDialog(null, "AFTER THE LOAN YOUR MONEY ARE " + money + "$");
 			
 			   return payMoney(amount);
@@ -118,7 +114,6 @@ public class Player {
 			
 	}
 	
-	
 	public ArrayList<String> whereToBuildHouse(int gr,int num)
 	{
 		ArrayList<PlotSquare> h = new ArrayList<>();
@@ -176,14 +171,15 @@ public class Player {
 		return str;
 	}
 	
-	
 	public int calculateStationRent()
 	{
 		if (stations.size()==1)
 		   return 25;
 		else if (stations.size()==2)
 			return 50;
-		return 100;
+		else if (stations.size()==3)
+			return 100;
+		return 200;
 		
 	}
 	
@@ -194,16 +190,15 @@ public class Player {
 		return 10;
 	}
 	
-	
 	public void changePosition(int p)
 	{
 		
 		if(InJail == false)
 		{
 			int move = position + p;
-		    if(move>19)
+		    if(move>39)
 			{
-			  position = (move % 20 );
+			  position = (move % 40 );
 			  if (position==0)
 				  JOptionPane.showMessageDialog(null, "YOU ARE ON GO(200$)", "INFO", JOptionPane.INFORMATION_MESSAGE);
 			  else
@@ -211,13 +206,12 @@ public class Player {
 			  earnMoney(200);
 			}
 		    else if(move<0)
-			  position = 20 + move;
+			  position = 40 + move;
 		    else
 			   position = move;
 		}
 				
 	}
-
 	
 	public String returnPlotSquares()
 	{
@@ -254,10 +248,9 @@ public class Player {
 		jail_counter++;
 		if (jail_counter<=2)
 			return true;
-		return false;
-			
-		
+		return false;		
 	}
+	
 	//getters and setters
 	public int getCode() {
 		return code;
@@ -270,17 +263,14 @@ public class Player {
 	public int getMoney() {
 		return money;
 	}
-
 	
 	public boolean isGetOutOfJail() {
 		return getOutOfJail;
 	}
 
-
 	public void setGetOutOfJail(boolean getOutOfJail) {
 		this.getOutOfJail = getOutOfJail;
 	}
-
 
 	public void setMoney(int money) {
 		this.money = money;
@@ -289,7 +279,6 @@ public class Player {
 	public void setPosition(int position) {
 		this.position = position;
 	}
-
 
 	public int getPosition() {
 		return position;
@@ -305,37 +294,44 @@ public class Player {
 		this.label.setVerticalTextPosition(JLabel.BOTTOM);
 		
 	}
+	
 	public ArrayList<PlotSquare> getTitles() {
 		return titles;
 	}
+	
 	public ArrayList<StationSquare> getStations() {
 		return stations;
 	}
+	
 	public ArrayList<UtilitySquare> getUtilities() {
 		return utilities;
 	}
 	public boolean isLoan() {
 		return loan;
 	}
+	
 	public boolean isInJail() {
 		return InJail;
 	}
+	
 	public void setInJail(boolean inJail) {
 		InJail = inJail;
 	}
+	
 	public int getJail_counter() {
 		return jail_counter;
 	}
+	
 	public void setJail_counter(int jail_counter) {
 		this.jail_counter = jail_counter;
 	}
+	
 	public boolean isBankrupt() {
 		return bankrupt;
 	}
+	
 	public void setBankrupt(boolean bankrupt) {
 		this.bankrupt = bankrupt;
 	}
-	
-	
 
 }

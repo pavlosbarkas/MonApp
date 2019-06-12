@@ -8,7 +8,6 @@ public class PlotSquare extends Square{
 	private int counter; //counts number of house
 	private int group; //which group belongs to
 	private int num; //how many are in a group
-
 	
 	public PlotSquare(String n,JLabel label,String name,int price,int rent,House house,Hotel hotel,int group,int num)
 	{
@@ -54,12 +53,5 @@ public class PlotSquare extends Square{
 	public void setHotel_built(boolean hotel_built) {
 		this.hotel_built = hotel_built;
 	}
-
-
-	
-	
-	
-	
-	
 
 }
