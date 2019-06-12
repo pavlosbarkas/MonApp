@@ -399,8 +399,10 @@ public class GUI extends JFrame {
 		
 		//adding buttons
 		decision = new JButton("Community Chest");
-		decision.setFont(new Font("Serif",Font.BOLD + Font.ITALIC,28));
-		decision.setBackground(new Color(253,157,48));
+		decision.setFont(new Font("Serif",Font.BOLD + Font.ITALIC,0));
+		//decision.setBackground(new Color(253,157,48));
+		Image im1 = new ImageIcon(this.getClass().getResource("/chest.jpg")).getImage();
+		decision.setIcon(new ImageIcon(im1));
 		dc.gridx=2;
 	    dc.gridy=2;
 	    dc.ipadx=20;
@@ -409,8 +411,10 @@ public class GUI extends JFrame {
 	    p.add(decision,dc);
 	    
 	    order = new JButton("Chance");
-	    order.setFont(new Font("Serif",Font.BOLD + Font.ITALIC,28));
-	    order.setBackground(new Color(60,203,246));
+	    order.setFont(new Font("Serif",Font.BOLD + Font.ITALIC,0));
+	    //order.setBackground(new Color(60,203,246));
+	    Image im2 = new ImageIcon(this.getClass().getResource("/chance.jpg")).getImage();
+	    order.setIcon(new ImageIcon(im2));
 		oc.gridx=8;
 	    oc.gridy=8;
 	    oc.ipadx=45;
@@ -492,8 +496,10 @@ public class GUI extends JFrame {
 	  for(Square s : board.getSquares())
 	  {
 		  for (i=0;i<40;i++)
-		      if (b[i].getText().equals(s.getN()))
+		      if (b[i].getText().equals(s.getN())) {
+		    	  b[i].setFont(new Font("Arial", Font.PLAIN, 0));
 			      b[i].setIcon(s.getLabel().getIcon());
+		      }
 	  }	
 	}
 	
